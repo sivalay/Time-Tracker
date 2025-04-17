@@ -1,0 +1,152 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap");
+
+*{
+    box-sizing: border-box;
+}
+
+body, ul, li, a, button{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-decoration: none;
+}
+
+body{
+    height: 100vh;
+    font-family: "Poppins", sans-serif;
+}
+
+.main-wrap{
+    width: 100%;
+    height: 100%;
+    background-color: rgb(236, 250, 236);
+}
+
+nav{
+    /* height: 50px; */
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(183, 187, 183);
+    padding: 10px 40px;
+}
+
+.button{
+    padding: 10px;
+    font-family: inherit;
+    font-size: 18px;
+    background-color: rgb(232, 245, 232);
+    border: none;
+    border-radius: 5px;
+}
+
+i{
+    margin-right: 10px;
+}
+h3{
+    margin: 0px;
+}
+
+.content-wrap{
+    padding: 40px;
+    margin-top: 40px;
+}
+
+.tasks-wrap{
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    flex-flow: column;
+    background-color: rgb(183, 187, 183);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.task-container{
+    display: flex;
+    flex-flow: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgb(236, 250, 236);
+}
+
+.task-head{
+    width: 50%;
+    display: flex;
+    flex-flow: column;
+    color: #000;
+}
+
+
+
+
+
+
+/* -----------Add New Item------------ */
+
+.back-btn{
+    height: 50px;
+}
+.back-btn svg{
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+}
+.item-info-container{
+    width: 100%;
+    bottom: 0px;
+    /* display: block; */
+    position: fixed;
+    border: 5px solid rgb(236, 250, 236);
+}
+
+.item-info{
+    display: none;
+}
+
+.item-info-container form{
+    /* width: fit-content; */
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    background-color: rgb(183, 187, 183);
+    border-radius: 0px 0px 5px 5px;
+    padding: 20px;
+}
+
+.item-info-container form div{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.item-info-container form input{
+    padding: 8px;
+    border: none;
+    background-color: rgb(240, 247, 240);
+    border-radius: 5px;
+}
+
+.item-info-container form button{
+    width: 100px;
+}
+
+.add-task{
+    display: none;
+}
+
+.edit-task{
+    display: none;
+}
+
+#delete-el{
+    height: 47px;
+}
+#delete-el i{
+    color: red;
+}
+#edit-el i{
+    color: green;
+}
+

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Tracker</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"/>
+</head>
+<body>
+    
+    <div class="main-wrap">
+        <nav>
+            <div><button class="button" id="add-el"><i class="fas fa-plus"></i>Add New</button></div>
+            <div>
+                <!-- <button class="button" id="delete-el"><i class="fas fa-trash"></i>Delete</button> -->
+                <button class="button" id="history-el">History</button>
+            </div>
+
+        </nav>
+
+        <div class="content-wrap">
+            <div class="tasks-wrap">
+                
+            </div>
+        </div>
+        
+        <div class="item-info-container item-info" id="add-container">
+            <nav>
+                <button class="button back-btn"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
+                </svg>
+                </button>
+            </nav>
+        
+            <form action="">
+                <div class="form-cont">
+                    <div>
+                        <label for="task-name">Task Name : </label>
+                        <input type="text" id="task-name">
+                    </div>
+
+                    <div>
+                        <label for="task-description">Task Description : </label>
+                        <input type="text" id="task-description">
+                    </div>
+
+                    <div>
+                        <label for="task-tags">Task Tag Name : </label>
+                        <input type="text" id="task-tag">
+                    </div>
+                </div>
+
+                <button class="button" id="add-btn" type="submit">Add</button>
+                <button class="button edit-task" id="edit-btn" type="submit">Edit</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add-New-Item</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="main-wrap">
+        <nav>
+            <button class="button back-btn"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
+              </svg>
+            </button>
+        </nav>
+        <div class="content-wrap">
+            <div class="item-info-container">
+                <form action="">
+                    <div>
+                        <label for="task-name">Task Name : </label>
+                        <input type="text" id="task-name">
+                    </div>
+
+                    <div>
+                        <label for="task-description">Task Description : </label>
+                        <input type="text" id="task-description">
+                    </div>
+
+                    <div>
+                        <label for="task-tags">Task Tag Name : </label>
+                        <input type="text" id="task-tag">
+                    </div>
+
+                    <button class="button" id="add-btn" type="submit">Add</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="add-script.js"></script>
+</body>
+</html>
