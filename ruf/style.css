@@ -49,3 +49,13 @@ button{
     border: none;
     border-radius: 5px;
 }
+
+.st-btn{
+    color: rgb(232, 245, 232);
+    background-color: green;
+}
+
+.ed-btn{
+    color: rgb(232, 245, 232);
+    background-color: red;
+}

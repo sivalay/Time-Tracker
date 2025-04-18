@@ -150,3 +150,57 @@ h3{
     color: green;
 }
 
+/* timer-page */
+
+.wrap{
+    min-width: 400px;
+    display: flex;
+    flex-flow: column;
+    gap: 20px;
+    background-color: rgb(183, 187, 183);
+    padding: 20px;
+}
+
+.li{
+    display: flex;
+    gap: 40px;
+    padding: 10px;
+    /* background-color: rgb(249, 250, 249); */
+}
+
+.li div span{
+    min-width: 60px;
+    min-height: 20px;
+}
+
+/* .home-button{
+    height: 50px;
+} */
+
+.home-button svg{
+    height: 20px;
+    width: 20px;
+    font-size: 1rem;
+}
+
+.main-task-wrap{
+    display: flex;
+    flex-flow: column;
+    gap: 30px;
+}
+
+.button-container{
+    display: flex;
+    gap: 10px;
+}
+
+/* .st-btn{
+    color: rgb(232, 245, 232);
+    background-color: green;
+}
+
+.ed-btn{
+    color: rgb(232, 245, 232);
+    background-color: red;
+} */
+
