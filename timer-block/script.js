@@ -3,6 +3,8 @@ const startButton = document.querySelector('.st-btn')
 const stopButton = document.querySelector('.ed-btn')
 const content = document.querySelector('.content-wrap')
 const timeContainer = document.querySelector('.time-wrap')
+const totalTime = document.querySelector('.tot-time')
+console.log(totalTime)
 
 let dates = []
 
@@ -26,6 +28,7 @@ function getStartTime(){
 }
 
 function displayTime(dates){
+    console.log('hi')
     timeContainer.innerHTML =dates.map((dateItem, id) => {
 
         let endTimeHtml
@@ -48,17 +51,19 @@ function displayTime(dates){
 
         return `
         <li class="li" data-index="${id}">
-            <div>Start Time : <span class="start-time" id="task${id}">${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(secs)}</span></div>
+            <div class="li-cont">Start Time : <span class="start-time" id="task${id}">${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(secs)}</span></div>
 
-            <div>End Time : <span class="end-time" id="task${id}">${endTimeHtml}</span></div>
+            <div class="li-cont">End Time : <span class="end-time" id="task${id}">${endTimeHtml}</span></div>
 
-            <div class="result-el">Time Duration : <span id="result">${dateItem.timeDiff}</span></div>
+            <div class="result-el li-cont">Time Duration : <span id="result">${dateItem.timeDiff}</span></div>
         </li>
     `
     }).join('')
     // getRunTime(dates)
 
 }
+
+// setInterval(displayTime(dates), 1000)
 
 
 // function to get runTime
@@ -90,7 +95,7 @@ function getRunTime(dates){
     }).join('')
     return result
 }
-setInterval(getRunTime(dates), 1000)
+// setInterval(getRunTime, 1000)
 
 function formatTime(time){
     return time < 10 ? (`0${time}`) : time
@@ -99,7 +104,7 @@ function formatTime(time){
 
 startButton.addEventListener('click', (e) => {
     getStartTime()
-    setInterval(getRunTime(dates), 1000)
+    // setInterval(getRunTime, 1000)
 })
 
 // function to get End Time
@@ -135,4 +140,18 @@ stopButton.addEventListener('click', () => {
     displayTime(dates)
     clearInterval()
 })
+
+function displayTotTime(){
+    const endTime = new Date()
+    // const endHours = endTime.getHours()
+    // const endMins = endTime.getMinutes()
+    // const endSecs = endTime.getSeconds()
+    const t = endTime.toLocaleTimeString()
+    totalTime.innerHTML = t
+    // totalTime.innerHTML = `${formatTime(endHours)} : ${formatTime(endMins)} : ${formatTime(endSecs)}`
+}
+
+// setInterval(displayTotTime, 1000)
+// time()
+
 

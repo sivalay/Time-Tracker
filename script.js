@@ -10,6 +10,11 @@ const addButton = document.querySelector('#add-btn')
 const editButton = document.querySelector('#edit-btn')
 const taskList = document.querySelector('.tasks-wrap')
 
+const searchEl = document.querySelector('#search')
+const searchBt = document.querySelector('#search-button')
+// console.log(searchEl)
+// console.log(searchBt)
+
 const tasks = JSON.parse(localStorage.getItem('tasks'))
 
 function addTasks(e){
@@ -23,29 +28,10 @@ function addTasks(e){
         tTag,
         taskId : ''
     }
-
-    // let matchItem
-    // tasks.forEach((task) => {
-    //     if(task.taskId == this.taskId){
-    //         matchItem = task
-    //     }
-    // })
-
-    // console.log(task.taskId)
-
-    // if (!(tasks.at(-1).taskId)){
-    //     tasks.push(task)
-    // }else{
-    //     console.log('not there')
-    // }
-
-    // console.log(tasks.at(-1).taskId)
     console.log(e)
     tasks.push(task)
     displayTasks(tasks)
     localStorage.setItem('tasks', JSON.stringify(tasks))
-    // console.log(tasks)
-    // console.log(tasks.at(-1).taskId)
 
 }
 
@@ -54,19 +40,17 @@ function displayTasks(tasks){
         task.taskId = id
         return task ? `
             <div class="task-container" id="task${id}">
-                <a class="task-head" href="ruf/index.html">
+                <a class="task-head" href="timer-block/index.html">
                     <h3>${task.tName}</h3><span>${task.tDesc}</span><span>${task.tTag}</span>
                 </a>
-                <div>
+                <div class="task-buttons">
                     <button class="button" id="edit-el" data-task-id="${id}"><i class="fas fa-pen"></i>Edit</button>
                     <button class="button" id="delete-el" data-task-id="${id}"><i class="fas fa-trash"></i>Delete</button>
                 </div>
             </div>
         ` : `
             <div class="task-container">
-                    <div><h3>Task One</h3><span>About to Make it.</span></div>
-                    <button class="button" id="delete-el"><i class="fas fa-trash"></i>Delete</button>
-                    <button class="button" id="delete-el"><i class="fas fa-pen"></i>Edit</button>
+                <div><h3>Add Tasks</h3></div>
             </div>
         `
     }).join('')
@@ -92,8 +76,8 @@ deleteEl.forEach((item) => {
     })
 })
 
-// to edit task details
 
+// to edit task details
 const editEl = document.querySelectorAll('#edit-el')
 
 editEl.forEach((item) => {
@@ -125,8 +109,6 @@ editEl.forEach((item) => {
 })
 
 
-
-
 // to add task
 addButton.addEventListener('click', (e) => {
     e.preventDefault()
@@ -151,3 +133,39 @@ function unDisplayAdd(){
     location.reload()
 }
 backButton.addEventListener('click', unDisplayAdd)
+
+
+// to search tasks
+const allBt = document.querySelector('.all-btn')
+
+function searchTasks(){
+    const searchValue = searchEl.value
+    allBt.classList.remove('item-info')
+    console.log(searchValue)
+    tasks.forEach((task) => {
+        if (task.tTag == searchValue){
+            console.log(task)
+            taskList.innerHTML = `
+            <div class="task-container" id="task${task.taskId}">
+                <a class="task-head" href="timer-block/index.html">
+                    <h3>${task.tName}</h3><span>${task.tDesc}</span><span>${task.tTag}</span>
+                </a>
+                <div class="task-buttons">
+                    <button class="button" id="edit-el" data-task-id="${task.taskId}"><i class="fas fa-pen"></i>Edit</button>
+                    <button class="button" id="delete-el" data-task-id="${task.taskId}"><i class="fas fa-trash"></i>Delete</button>
+                </div>
+            </div>
+            `
+        }
+    })
+    searchEl.value = ''
+}
+
+allBt.addEventListener('click', () => {
+    location.reload()
+})
+
+searchBt.addEventListener('click', (e) => {
+    e.preventDefault()
+    searchTasks()
+})
