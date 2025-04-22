@@ -40,7 +40,7 @@ function displayTasks(tasks){
         task.taskId = id
         return task ? `
             <div class="task-container" id="task${id}">
-                <a class="task-head" href="timer-block/index.html">
+                <a class="task-head" href="timer-block/index.html?tastId=${id}" data-task-id="${id}">
                     <h3>${task.tName}</h3><span>${task.tDesc}</span><span>${task.tTag}</span>
                 </a>
                 <div class="task-buttons">
@@ -169,3 +169,15 @@ searchBt.addEventListener('click', (e) => {
     e.preventDefault()
     searchTasks()
 })
+
+// to get into time block with id
+const taskTimerEl = document.querySelectorAll('.task-head')
+
+function getTaskId(){
+    taskTimerEl.forEach((item) => {
+        const itemId = item.dataset.taskId
+        console.log(this)
+        console.log(itemId)
+    })
+}
+getTaskId()

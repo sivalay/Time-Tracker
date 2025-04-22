@@ -310,6 +310,10 @@ h3{
     align-self: flex-end;
 }
 
+.border-view{
+    border: 1px solid rgb(183, 187, 183);
+}
+
 
 
 

@@ -1,12 +1,13 @@
+// import { getTaskId } from "../script"
 
+const resumeButton = document.querySelector('.rm-btn')
 const startButton = document.querySelector('.st-btn')
 const stopButton = document.querySelector('.ed-btn')
-const content = document.querySelector('.content-wrap')
 const timeContainer = document.querySelector('.time-wrap')
 const totalTime = document.querySelector('.tot-time')
 console.log(totalTime)
 
-let dates = []
+let dates = JSON.parse(localStorage.getItem('dates')) || []
 
 // function to get start Time
 
@@ -22,14 +23,13 @@ function getStartTime(){
         }
         dates.push(times)
         displayTime(dates)
+        localStorage.setItem('dates', JSON.stringify(dates))
     }
-    // console.log(typeof resultHtml)
-    // setInterval(() => console.log('hi'), 1000)
 }
 
 function displayTime(dates){
     console.log('hi')
-    timeContainer.innerHTML =dates.map((dateItem, id) => {
+    timeContainer.innerHTML = dates.map((dateItem, id) => {
 
         let endTimeHtml
 
@@ -49,29 +49,28 @@ function displayTime(dates){
             endTimeHtml = '00 : 00 : 00'
         }
 
-        return `
-        <li class="li" data-index="${id}">
-            <div class="li-cont">Start Time : <span class="start-time" id="task${id}">${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(secs)}</span></div>
+        return dateItem ? `
+            <li class="li" id="li-container" data-time-id="${id}">
+                <div class="li-cont">Start Time : <span class="start-time" id="task${id}">${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(secs)}</span></div>
 
-            <div class="li-cont">End Time : <span class="end-time" id="task${id}">${endTimeHtml}</span></div>
+                <div class="li-cont">End Time : <span class="end-time" id="task${id}">${endTimeHtml}</span></div>
 
-            <div class="result-el li-cont">Time Duration : <span id="result">${dateItem.timeDiff}</span></div>
-        </li>
-    `
+                <div class="result-el li-cont">Time Duration : <span id="result">${dateItem.timeDiff}</span></div>
+            </li>
+        ` : `
+            <div>Start Time : <span class="start-time">00:00:00</span></div>
+
+            <div>End Time : <span class="end-time">00:00:00</span></div>
+        `
     }).join('')
-    // getRunTime(dates)
 
 }
 
-// setInterval(displayTime(dates), 1000)
-
+displayTime(dates)
 
 // function to get runTime
-
-function getRunTime(dates){
-    // console.log("hi")
+function getRunTime(){
     const result = dates.map((dateItem, id) => {
-        // console.log('hello')
         
         if (dateItem.status === 'processing'){
             displayTime(dates)
@@ -81,21 +80,14 @@ function getRunTime(dates){
             const timeDiff = (currentTime - time) / 1000
             const hours = Math.floor(timeDiff / 3600 % 24)
             const mins = Math.floor(timeDiff / 60) % 60
-            const seconds = Math.floor(timeDiff) % 60            
-            // console.log(`${hours} : ${mins} : ${seconds}`)
-            // if (dateItem.timeDiff == ''){
-            //     resultEl.innerHTML = `${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`
-            // }
+            const seconds = (Math.floor(timeDiff) % 60 ) + 1 
             dateItem.timeDiff = `${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`
+            localStorage.setItem('dates', JSON.stringify(dates))
 
-            console.log(dates)
-            // console.log(resultEl.innerHTML)
-            // console.log('hi')
         }
     }).join('')
     return result
 }
-// setInterval(getRunTime, 1000)
 
 function formatTime(time){
     return time < 10 ? (`0${time}`) : time
@@ -104,54 +96,67 @@ function formatTime(time){
 
 startButton.addEventListener('click', (e) => {
     getStartTime()
-    // setInterval(getRunTime, 1000)
+    setInterval(getRunTime, 1000)
 })
 
 // function to get End Time
 
 function getEndTime(){
     const date = new Date()
-    // const hours = date.getHours()
-    // const mins = date.getMinutes()
-    // const secs = date.getSeconds()
-    // console.log(dates,'first')
     const r = dates.map((item, id) => {
         if (item.status === 'processing'){
-            // const endTimeEl = document.querySelector('.end-time')
-            // endTimeEl.innerHTML = `${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(secs)}`
-            // console.log(endTimeEl)
-            // const resultEl = document.querySelector('#result')
-            // console.log(resultEl.innerHTML)
-            // item.timeDiff = resultEl.innerHTML
             item.end = `${date}`
             item.status = 'done'
-            // displayTime(dates)
-            // setInterval(getRunTime(dates), 1000)
             console.log(dates, 'after-end')
-            
+            localStorage.setItem('dates', JSON.stringify(dates))
         }
     })
     // console.log(dates, 'second')
 }
 
 stopButton.addEventListener('click', () => {
-    setInterval(getRunTime(dates), 1000)
+    setInterval(getRunTime, 1000)
     getEndTime()
     displayTime(dates)
     clearInterval()
 })
 
-function displayTotTime(){
-    const endTime = new Date()
+// function displayTotTime(){
+//     const endTime = new Date()
     // const endHours = endTime.getHours()
     // const endMins = endTime.getMinutes()
     // const endSecs = endTime.getSeconds()
-    const t = endTime.toLocaleTimeString()
-    totalTime.innerHTML = t
+    // const t = endTime.toLocaleTimeString()
+    // totalTime.innerHTML = t
     // totalTime.innerHTML = `${formatTime(endHours)} : ${formatTime(endMins)} : ${formatTime(endSecs)}`
-}
+// }
 
 // setInterval(displayTotTime, 1000)
 // time()
 
+// resume button
+const timeCont = document.querySelectorAll('#li-container')
+console.log(timeCont)
+
+function resumeTimer(itemId){
+    console.log('hello', itemId)
+}
+
+timeCont.forEach((item) => {
+    item.addEventListener('click', () => {
+        resumeButton.classList.remove('item-info')
+        startButton.classList.add('item-info')
+        const itemId = item.dataset.timeId
+        dates.map((date) => {
+            if(date.id == itemId){
+                date.status = 'resume'
+            }
+        })
+        // console.log(itemId)
+    })
+    // resumeButton.addEventListener('click', resumeTimer(itemId))
+
+})
+
+resumeButton.addEventListener('click', resumeTimer)
 
