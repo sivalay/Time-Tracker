@@ -23,7 +23,6 @@ body{
 }
 
 nav{
-    /* height: 50px; */
     display: flex;
     justify-content: space-between;
     background-color: rgb(183, 187, 183);
@@ -66,7 +65,6 @@ h3{
     display: flex;
     align-items: center;
     gap: 5px;
-    /* background-color: #fff; */
     border: 1px solid rgb(183, 187, 183);
     border-radius: 30px;
     padding: 10px;
@@ -143,7 +141,6 @@ h3{
 }
 
 
-
 /* -----------Add New Item------------ */
 
 .back-btn{
@@ -157,7 +154,6 @@ h3{
 .item-info-container{
     width: 100%;
     bottom: 0px;
-    /* display: block; */
     position: fixed;
     border: 5px solid rgb(236, 250, 236);
 }
@@ -167,7 +163,6 @@ h3{
 }
 
 .item-info-container form{
-    /* width: fit-content; */
     display: flex;
     flex-flow: column;
     gap: 10px;
@@ -178,7 +173,6 @@ h3{
 }
 
 .form-cont{
-    /* width: fit-content; */
     display: flex;
     gap: 20px;
     flex-flow: row wrap;
@@ -203,7 +197,6 @@ h3{
 
 .item-info-container form button{
     width: 100px;
-    /* display: flex; */
     align-self: flex-end;
 }
 
@@ -263,18 +256,26 @@ h3{
 .tot-time{
     width: 90px;
     margin-left: 10px;
-    /* text-align: center; */
 }
 
 .li{
     display: flex;
+    position: relative;
     flex-flow: column;
     flex-wrap: nowrap;
-    /* justify-content: space-between; */
     gap: 10px;
     padding: 10px 10px;
-    /* background-color: rgb(249, 250, 249); */
     border-bottom: 1px solid rgb(236, 250, 236);
+}
+
+.green-signal{
+    width: 10px;
+    height: 10px;
+    background-color: green;
+    border-radius: 50px;
+    position: absolute;
+    left: 20px;
+    top: 38px;
 }
 
 .li .li-cont span{
