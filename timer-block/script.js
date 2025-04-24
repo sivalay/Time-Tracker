@@ -10,7 +10,6 @@ const totalTime = document.querySelector('.tot-time')
 let dates = JSON.parse(localStorage.getItem('dates')) || []
 
 // function to get start Time
-
 function getStartTime(){
     const date = new Date()
     if (dates.length == 0 || dates.at(-1).status == 'done'){
@@ -59,7 +58,7 @@ function displayTime(dates){
 
         return dateItem ? `
             <li class="li" id="li-container" data-time-id="${id}">
-                <div class="green-signal item-info" id="task${id}"></div>
+                <div class="green-signal ${dateItem.status == 'resume' ? '' : 'item-info'}" id="task${id}"></div>
                 <div class="li-cont">Start Time : <span class="start-time" id="task${id}">${startTime}</span></div>
 
                 <div class="li-cont">End Time : <span class="end-time" id="task${id}">${endTime}</span></div>
@@ -95,6 +94,7 @@ function getRunTime(){
     return result
 }
 
+// function to transform time
 function formatTime(time){
     return time < 10 ? (`0${time}`) : time
 }
@@ -106,7 +106,6 @@ startButton.addEventListener('click', (e) => {
 })
 
 // function to get End Time
-
 function getEndTime(){
     const date = new Date()
     const r = dates.map((item, id) => {
@@ -125,72 +124,69 @@ stopButton.addEventListener('click', () => {
     getEndTime()
     displayTime(dates)
     clearInterval()
-    // location.reload()
+    location.reload()
 })
 
 
 // for resume button
-// const timeCont = document.querySelectorAll('#li-container')
-// console.log(timeCont)
+const timeCont = document.querySelectorAll('#li-container')
+console.log(timeCont)
 
-// let greenEl
-// let resumeId
-// let resumeStartTime
+let greenEl
+let resumeId
+let resumeStartTime
+let pausedTime
 
-// timeCont.forEach((item) => {
-//     item.addEventListener('click', () => {
-//         console.log(item)
-//         resumeButton.classList.remove('item-info')
-//         startButton.classList.add('item-info')
-//         resumeId = item.dataset.timeId
-//         dates.map((date) => {
-//             if(date.id == resumeId){
-//                 date.status = 'resume'
-//             }else{
-//                 date.status = 'done'
-//             }
-//             localStorage.setItem('dates', JSON.stringify(dates))
-//         })
-//         console.log(resumeId, 'inside')
-//         // return itemId
-//     })
-//     // resumeButton.addEventListener('click', resumeTimer(itemId))
-//     // console.log(itemId, 'inside foreEach')
+timeCont.forEach((item) => {
+    item.addEventListener('click', () => {
+        console.log(item)
+        resumeButton.classList.remove('item-info')
+        startButton.classList.add('item-info')
+        resumeId = item.dataset.timeId
+        dates.map((date) => {
+            if(date.id == resumeId){
+                date.status = 'resume'
+                pausedTime = date.timeDiff
+                console.log(pausedTime)
+            }else{
+                date.status = 'done'
+            }
+            localStorage.setItem('dates', JSON.stringify(dates))
+        })
+    })
 
-// })
-// console.log(resumeId, 'outside')
+})
 
-// function resumeTimer(){
-//     // console.log('hello', itemId)
-//     dates.map((date) => {
-//         if (date.status == 'resume'){
-//             console.log(date)
-//             // date.status = 'resumeProcessing'
-//             const timeStart = resumeStartTime
-//             const timeNow = new Date()
-//             const newTimeDiff = timeNow - resumeStartTime
-//             console.log(newTimeDiff, 'here')
-//             console.log(date.timeDiff)
-//             // date.timeDiff = date.timeDiff + newTimeDiff
-//             // console.log(date.timeDiff)
-//             // totalTime.innerHTML = `${timeStart.toLocaleTimeString()} | ${timeNow.toLocaleTimeString()}`
-//             // localStorage.setItem('dates', JSON.stringify(dates))
-//             // displayTime(dates)
-//         }
-//     })
+function resumeTimer(){
+    dates.map((date) => {
+        if (date.status == 'resume'){
+            // console.log(date)
+            const timeStart = resumeStartTime
+            const timeNow = new Date()
+            const newTimeDiff = timeNow - resumeStartTime
+            // console.log(newTimeDiff, 'new-time-difference')
+            date.timeDiff = pausedTime + newTimeDiff
+            // console.log(date.timeDiff)
+            totalTime.innerHTML = `${timeStart.toLocaleTimeString()} | ${timeNow.toLocaleTimeString()}`
+            localStorage.setItem('dates', JSON.stringify(dates))
+            displayTime(dates)
+        }else{
+            greenEl.classList.add('item-info')
+
+        }
+    })
     
-// }
+}
 
-// resumeButton.addEventListener('click', () => {
-//     resumeStartTime = new Date()
-//     greenEl = document.querySelector(`#task${resumeId}`)
-//     console.log(greenEl)
-//     greenEl.classList.remove('item-info')
-
-//     setInterval(resumeTimer, 1000)
-// })
+resumeButton.addEventListener('click', () => {
+    resumeStartTime = new Date()
+    greenEl = document.querySelector(`#task${resumeId}`)
+    console.log(greenEl)
+    setInterval(resumeTimer, 1000)
+})
 
 // -----------------------------------------------------------------------------------------------
+// function to get the total time
 // function displayTotTime(){
 //     const endTime = new Date()
     // const endHours = endTime.getHours()
