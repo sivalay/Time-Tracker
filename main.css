@@ -144,7 +144,7 @@ h3{
 /* -----------Add New Item------------ */
 
 .back-btn{
-    height: 50px;
+    height: 49px;
 }
 .back-btn svg{
     width: 30px;
@@ -294,6 +294,7 @@ h3{
 }
 
 .main-task-wrap{
+    position: relative;
     display: flex;
     flex-flow: column;
     gap: 30px;
@@ -303,9 +304,12 @@ h3{
     display: flex;
     gap: 10px;
     align-self: flex-end;
+    margin-right: 5px;
 }
 
 .submit-button{
+    /* bottom: 10px;
+    position: sticky; */
     width: fit-content;
     display: flex;
     align-self: flex-end;
