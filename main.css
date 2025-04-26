@@ -108,7 +108,7 @@ h3{
     background: transparent;
 }
 
-.tasks-wrap{
+.tasks-wrap, .task-wrap{
     width: 100%;
     display: flex;
     gap: 20px;

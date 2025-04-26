@@ -1,0 +1,21 @@
+
+
+* {
+    box-sizing: border-box;
+}
+
+body, a, li, ul,button{
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    list-style-type: none;
+}
+
+button{
+    height: 50px;
+    width: 200px;
+    display: bock;
+    padding: 10px;
+    color: #fff;
+    background-color: green;
+}

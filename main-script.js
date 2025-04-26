@@ -1,3 +1,6 @@
+import { tasks, addTask, SaveToStorage } from "./datas/tasks.js"
+// import { dates, addTime, SaveTimes } from "../datas/times.js"
+
 
 const addEl = document.querySelector('#add-el')
 const backButton = document.querySelector('.back-btn')
@@ -15,7 +18,7 @@ const searchBt = document.querySelector('#search-button')
 // console.log(searchEl)
 // console.log(searchBt)
 
-const tasks = JSON.parse(localStorage.getItem('tasks'))
+// const tasks = JSON.parse(localStorage.getItem('tasks'))
 
 function addTasks(e){
     const tName = taskName.value
@@ -26,12 +29,15 @@ function addTasks(e){
         tName,
         tDesc,
         tTag,
-        taskId : ''
+        taskId : '',
+        totalTime : ''
     }
     console.log(e)
-    tasks.push(task)
+    // tasks.push(task)
+    addTask(task)
     displayTasks(tasks)
-    localStorage.setItem('tasks', JSON.stringify(tasks))
+    // localStorage.setItem('tasks', JSON.stringify(tasks))
+    SaveToStorage()
 
 }
 
@@ -72,7 +78,8 @@ deleteEl.forEach((item) => {
         const taskCont = document.querySelector(`#task${itemId}`)
         taskCont.remove()
         tasks.splice(itemId, 1)
-        localStorage.setItem('tasks', JSON.stringify(tasks))
+        // localStorage.setItem('tasks', JSON.stringify(tasks))
+        SaveToStorage()
     })
 })
 
@@ -102,7 +109,8 @@ editEl.forEach((item) => {
             matchItem.tDesc = taskDesc.value
             matchItem.tTag = taskTag.value
 
-            localStorage.setItem('tasks', JSON.stringify(tasks))
+            // localStorage.setItem('tasks', JSON.stringify(tasks))
+            SaveToStorage()
             unDisplayAdd()
         })        
     })
@@ -112,6 +120,7 @@ editEl.forEach((item) => {
 // to add task
 addButton.addEventListener('click', (e) => {
     e.preventDefault()
+    console.log('hi')
     addTasks()
 })
 
@@ -173,11 +182,12 @@ searchBt.addEventListener('click', (e) => {
 // to get into time block with id
 const taskTimerEl = document.querySelectorAll('.task-head')
 
-function getTaskId(){
-    taskTimerEl.forEach((item) => {
-        const itemId = item.dataset.taskId
-        console.log(this)
-        console.log(itemId)
-    })
+export function getTaskId(msg){
+    // taskTimerEl.forEach((item) => {
+    //     const itemId = item.dataset.taskId
+    //     console.log(this)
+    //     console.log(itemId)
+    // })
+    console.log(msg, 'module happend')
 }
 getTaskId()

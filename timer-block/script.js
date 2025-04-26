@@ -1,17 +1,29 @@
-// import { getTaskId } from "../script"
+
+import { dates, addTime, SaveTimes } from "../datas/times.js"
+import { tasks, SaveToStorage } from "../datas/tasks.js"
+
 
 const resumeButton = document.querySelector('.rm-btn')
 const backButton = document.querySelector('.back-btn-timer')
 const startButton = document.querySelector('.st-btn')
 const stopButton = document.querySelector('.ed-btn')
 const timeContainer = document.querySelector('.time-wrap')
+const headContainer = document.querySelector('.task-details')
+// console.log(headContainer)
 const totalTime = document.querySelector('.tot-time')
 const doneButton = document.querySelector('#btn-el')
-// console.log(doneButton)
 
-let dates = JSON.parse(localStorage.getItem('dates')) || []
+// let dates = JSON.parse(localStorage.getItem('dates')) || []
+
+// console.log(tasks.map(task => task))
 
 let stickTime = 0
+
+const loc = window.location
+const locParse = new URL(loc).searchParams
+const locId = parseInt(locParse.get("tastId"))
+console.log(locParse)
+console.log(locId)
 
 // function to get start Time
 function getStartTime(){
@@ -20,59 +32,83 @@ function getStartTime(){
         let times = {
             start : `${date}`,
             end : '',
+            taskId : locId,
             id : '',
             timeDiff : '',
             totalTime : '',
             status : 'processing'
         }
-        dates.push(times)
+        // dates.push(times)
+        addTime(times)
         displayTime(dates)
-        localStorage.setItem('dates', JSON.stringify(dates))
+        SaveTimes()
     }
 }
 
-function getTimeString(dateItem){
-    const endTime = new Date(dateItem)
-    const endHours = endTime.getHours()
-    const endMins = endTime.getMinutes()
-    const endSecs = endTime.getSeconds()
-    const endTimeHtml = `${formatTime(endHours)} : ${formatTime(endMins)} : ${formatTime(endSecs)}`
-    return endTimeHtml
+// function to renderTimeHead
+
+function displayHead(){
+    let item
+    tasks.map((task) => {
+        if (task.taskId == locId){
+            item = task
+            // console.log(item, 'taskItem')
+        }
+    })
+    headContainer.innerHTML = `
+        <h1 class="task-des-head">${item.tName}</h1>
+        <h3 class="task-des-subhead">${item.tDesc}</h3>
+        <h4 class="task-des-tag">${item.tTag}</h4>
+    `
 }
+displayHead()
+
+// function to renderTimeLIst
+let one = false
+let timeHtmlEl 
 
 function displayTime(dates){
-    console.log('hi')
-    if (dates.length == 0){
-        console.log('there is')
-        timeContainer.innerHTML = `
-            <li class="li" id="li-container">
-                <div class="li-cont">Start a New Move</div>
-            </li>
-        ` 
-    } else {
-        timeContainer.innerHTML = dates.map((dateItem, id) => {
+    timeHtmlEl = ''
+    // one = false
+    // console.log('hi')
 
+    let item
+    tasks.map((task) => {
+        if (task.taskId == locId){
+            item = task
+        }
+    })
+
+    let matchItem
+    dates.map((date, id) => {
+        if(date.taskId == locId){
+            matchItem = date
+            if(matchItem){
+                one = true
+            }
+            
+            // console.log(matchItem, 'haha')
             let endTime
-            dateItem.id = id
+            matchItem.id = id
 
-            const startTime = getTimeString(dateItem.start)
+            const startTime = getTimeString(matchItem.start)
 
-            if (dateItem.end != ''){
-                endTime = getTimeString(dateItem.end)
+            if (matchItem.end != ''){
+                endTime = getTimeString(matchItem.end)
             }else {
                 endTime = '00 : 00 : 00'
             }
 
-            const timeDiff = (dateItem.timeDiff) / 1000
+            const timeDiff = (matchItem.timeDiff) / 1000
             const hours = Math.floor(timeDiff / 3600 % 24)
             const mins = Math.floor(timeDiff / 60) % 60
             const seconds = (Math.floor(timeDiff) % 60 ) + 1 
             const timeDiffHtml = `${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`
 
-            return `
+            timeHtmlEl += `
                 <li class="li" id="li-container" data-time-id="${id}">
                     <div>
-                        <div class="green-signal ${dateItem.status == 'resume' ? '' : 'item-info'}" id="task${id}"></div>
+                        <div class="green-signal ${matchItem.status == 'resume' ? '' : 'item-info'}" id="task${id}"></div>
                         <div class="li-cont">Start Time : <span class="start-time" id="task${id}">${startTime}</span></div>
                     </div>
 
@@ -80,31 +116,33 @@ function displayTime(dates){
 
                     <div class="result-el li-cont running-time">Time Duration : <span id="result">${timeDiffHtml}</span></div>
                 </li>
-            `  
-        }).join('')
-    }
+            ` 
+        }
+            // if (one != true){
+            //     timeHtmlEl =  `
+            //     <li class="li" id="li-container">
+            //         <div class="li-cont">Start a New Move</div>
+            //     </li>
+            // `
+            // }
+        // console.log(matchItem, 'matchItem')
+        // console.log(timeHtmlEl)
+        // if(one == false){
+            // console.log('nop')
 
+            // timeHtmlEl = 'hi'
+            // `
+            //     <li class="li" id="li-container">
+            //         <div class="li-cont">Start a New Move</div>
+            //     </li>
+            // `
+        // }
+        timeContainer.innerHTML =  timeHtmlEl
+        // timeHtmlEl = ''
+    })  
 }
 
 displayTime(dates)
-
-// function to get totalTime
-function displayTotTime(){
-    console.log("hoi")
-    dates.map((date) => {
-        if (date.timeDiff){
-            stickTime += date.timeDiff
-            console.log(date)
-        }
-    })
-    const timeDiff = (stickTime) / 1000
-    const hours = Math.floor(timeDiff / 3600 % 24)
-    const mins = Math.floor(timeDiff / 60) % 60
-    const seconds = (Math.floor(timeDiff) % 60 ) + 1 
-    const timeDiffHtml = `${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`
-    totalTime.innerHTML = timeDiffHtml
-    console.log(stickTime, 'stickTime')
-}
 
 // function to get runTime
 function getRunTime(){
@@ -117,7 +155,7 @@ function getRunTime(){
             const currentTime = new Date()
             dateItem.timeDiff = currentTime - time
             console.log(dateItem.timeDiff, 'timeDiff')
-            localStorage.setItem('dates', JSON.stringify(dates))
+            SaveTimes()
 
         }
     }).join('')
@@ -127,6 +165,15 @@ function getRunTime(){
 // function to transform time
 function formatTime(time){
     return time < 10 ? (`0${time}`) : time
+}
+
+function getTimeString(dateItem){
+    const endTime = new Date(dateItem)
+    const endHours = endTime.getHours()
+    const endMins = endTime.getMinutes()
+    const endSecs = endTime.getSeconds()
+    const endTimeHtml = `${formatTime(endHours)} : ${formatTime(endMins)} : ${formatTime(endSecs)}`
+    return endTimeHtml
 }
 
 
@@ -143,10 +190,9 @@ function getEndTime(){
             item.end = `${date}`
             item.status = 'done'
             console.log(dates, 'after-end')
-            localStorage.setItem('dates', JSON.stringify(dates))
+            SaveTimes()
         }
     })
-    // console.log(dates, 'second')
 }
 
 stopButton.addEventListener('click', () => {
@@ -161,7 +207,7 @@ stopButton.addEventListener('click', () => {
 
 // for resume button
 const timeCont = document.querySelectorAll('#li-container')
-console.log(timeCont)
+// console.log(timeCont)
 
 let greenEl
 let resumeId
@@ -183,7 +229,7 @@ timeCont.forEach((item) => {
             }else{
                 date.status = 'done'
             }
-            localStorage.setItem('dates', JSON.stringify(dates))
+            SaveTimes()
         })
     })
 
@@ -196,8 +242,8 @@ function resumeTimer(){
             const timeNow = new Date()
             const newTimeDiff = timeNow - resumeStartTime
             date.timeDiff = pausedTime + newTimeDiff
-            totalTime.innerHTML = `${timeStart.toLocaleTimeString()} | ${timeNow.toLocaleTimeString()}`
-            localStorage.setItem('dates', JSON.stringify(dates))
+            // totalTime.innerHTML = `${timeStart.toLocaleTimeString()} | ${timeNow.toLocaleTimeString()}`
+            SaveTimes()
             displayTime(dates)
         }else{
             greenEl.classList.add('item-info')
@@ -222,7 +268,7 @@ function backResume(){
             backButton.classList.add('item-info')
             startButton.classList.remove('item-info')
             date.status = 'done'
-            localStorage.setItem('dates', JSON.stringify(dates))
+            SaveTimes()
             displayTime(dates)
             location.reload()
         }
@@ -233,6 +279,40 @@ backButton.addEventListener('click', backResume)
 
 
 // function to get the total time
+
+// function to get totalTime
+function displayTotTime(){
+    console.log("hoi")
+    let item
+    tasks.map((task) => {
+        if (task.taskId == locId){
+            item = task
+        }
+    })
+
+    dates.map((date) => {
+        if (date.timeDiff && date.taskId == locId){
+            stickTime += date.timeDiff
+            // console.log(date)
+        }
+    })
+    item.totalTime = stickTime
+    console.log(item.totalTime)
+    SaveToStorage()
+// ----------------------------------------------------------------------------------------------------
+    // const timeDiff = (stickTime) / 1000
+    // const hours = Math.floor(timeDiff / 3600 % 24)
+    // const mins = Math.floor(timeDiff / 60) % 60
+    // const seconds = (Math.floor(timeDiff) % 60 ) + 1 
+    // const timeDiffHtml = `${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`
+    // totalTime.innerHTML = timeDiffHtml
+    // console.log(stickTime, 'stickTime wants to push to tasks')
+}
+
 doneButton.addEventListener('click', () => {
     displayTotTime()
 })
+
+// export function printMsg(msg){
+//     console.log(msg, "here is the improted thing")
+// }
