@@ -41,6 +41,12 @@ function addTasks(e){
 
 }
 
+// function to add id
+// function addId(task){
+//     tasks.map
+    
+// }
+
 function displayTasks(tasks){
     taskList.innerHTML = tasks.map((task, id) => {
         task.taskId = id

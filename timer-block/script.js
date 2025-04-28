@@ -46,7 +46,6 @@ function getStartTime(){
 }
 
 // function to renderTimeHead
-
 function displayHead(){
     let item
     tasks.map((task) => {
@@ -63,6 +62,24 @@ function displayHead(){
 }
 displayHead()
 
+
+// function to renderTimeSum
+function displayTotalTime(){
+    let item
+    tasks.map((task) => {
+        if (task.taskId == locId){
+            item = task
+        }
+    })
+    const timeDiff = (item.totalTime) / 1000
+    const hours = Math.floor(timeDiff / 3600 % 24)
+    const mins = Math.floor(timeDiff / 60) % 60
+    const seconds = (Math.floor(timeDiff) % 60 ) + 2
+    const timeDiffHtml = `${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`
+    totalTime.innerHTML = timeDiffHtml
+}
+
+displayTotalTime()
 
 // function to renderTimeLIst
 let one = false
@@ -88,7 +105,6 @@ function displayTime(dates){
                 one = true
             }
             
-            // console.log(matchItem, 'haha')
             let endTime
             matchItem.id = id
 
@@ -307,23 +323,7 @@ doneButton.addEventListener('click', () => {
     displayTotTime()
 })
 
-function displayTotalTime(){
-    let item
-    tasks.map((task) => {
-        if (task.taskId == locId){
-            item = task
-            // console.log(item, 'taskItem')
-        }
-    })
-    const timeDiff = (item.totalTime) / 1000
-    const hours = Math.floor(timeDiff / 3600 % 24)
-    const mins = Math.floor(timeDiff / 60) % 60
-    const seconds = (Math.floor(timeDiff) % 60 ) + 2
-    const timeDiffHtml = `${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`
-    totalTime.innerHTML = timeDiffHtml
-}
 
-displayTotalTime()
 
 // export function printMsg(msg){
 //     console.log(msg, "here is the improted thing")

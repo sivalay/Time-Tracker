@@ -53,7 +53,6 @@ h3{
 
 .search-container{
     min-width: 100px;
-    /* right: 0px; */
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -118,10 +117,15 @@ h3{
     padding: 10px;
 }
 
+.task-wrap{
+    height: 310px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
 .task-container{
     display: flex;
     flex-flow: flex;
-    align-items: center;
     justify-content: space-between;
     padding-bottom: 10px;
     border-bottom: 1px solid rgb(236, 250, 236);
@@ -236,6 +240,14 @@ h3{
     padding: 0 10px;
 }
 
+.task-details{
+    margin-right: 5px;
+}
+
+h1{
+    margin-bottom: 5px;
+}
+
 .total-time-container{
     display: flex;
     flex-flow: column;
@@ -274,8 +286,8 @@ h3{
     background-color: green;
     border-radius: 50px;
     position: absolute;
-    left: 20px;
-    top: 38px;
+    right: 20px;
+    top: 18px;
 }
 
 .li .li-cont span{
@@ -308,8 +320,6 @@ h3{
 }
 
 .submit-button{
-    /* bottom: 10px;
-    position: sticky; */
     width: fit-content;
     display: flex;
     align-self: flex-end;
@@ -336,6 +346,10 @@ h3{
         margin-top: 40px;
     }
 
+    .task-container{
+        align-items: center;
+    }
+
     .task-buttons{
         display: flex;
         flex-flow: row;
@@ -357,6 +371,16 @@ h3{
 
     .item-info-container form{
         padding: 40px;
+    }
+
+    .task-wrap{
+        height: 278px;
+    }
+
+    .green-signal{
+        left: 20px;
+        top: 38px;
+        right: auto;
     }
 }
 

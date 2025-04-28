@@ -1,3 +1,4 @@
+// making a default list
 const listDemo = [
     {
         tName : 'Meeting',
@@ -7,7 +8,7 @@ const listDemo = [
         totalTime : ''
     }
 ]
-export const tasks = JSON.parse(localStorage.getItem('tasks')) || listDemo
+export const tasks = JSON.parse(localStorage.getItem('tasks')) || []
 
 export function addTask(task){
     tasks.push(task)
