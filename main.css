@@ -110,7 +110,7 @@ h3{
 .tasks-wrap, .task-wrap{
     width: 100%;
     display: flex;
-    gap: 20px;
+    gap: 10px;
     flex-flow: column;
     background-color: rgb(183, 187, 183);
     border-radius: 5px;
@@ -118,7 +118,7 @@ h3{
 }
 
 .task-wrap{
-    height: 310px;
+    max-height: 310px;
     overflow: hidden;
     overflow-y: scroll;
 }
@@ -127,7 +127,7 @@ h3{
     display: flex;
     flex-flow: flex;
     justify-content: space-between;
-    padding-bottom: 10px;
+    padding: 10px 0px;
     border-bottom: 1px solid rgb(236, 250, 236);
 }
 
@@ -270,6 +270,12 @@ h1{
     margin-left: 10px;
 }
 
+.by-default-text{
+    width: 100%;
+    text-align: center;
+    color: rgb(236, 250, 236);
+}
+
 .li{
     display: flex;
     position: relative;
@@ -374,7 +380,7 @@ h1{
     }
 
     .task-wrap{
-        height: 278px;
+        max-height: 278px;
     }
 
     .green-signal{

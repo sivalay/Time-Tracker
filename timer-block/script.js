@@ -41,7 +41,7 @@ function getStartTime(){
         // dates.push(times)
         addTime(times)
         displayTime(dates)
-        SaveTimes()
+        SaveTimes(dates)
     }
 }
 
@@ -74,7 +74,7 @@ function displayTotalTime(){
     const timeDiff = (item.totalTime) / 1000
     const hours = Math.floor(timeDiff / 3600 % 24)
     const mins = Math.floor(timeDiff / 60) % 60
-    const seconds = (Math.floor(timeDiff) % 60 ) + 2
+    const seconds = (Math.floor(timeDiff) % 60 ) + 1
     const timeDiffHtml = `${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`
     totalTime.innerHTML = timeDiffHtml
 }
@@ -82,13 +82,10 @@ function displayTotalTime(){
 displayTotalTime()
 
 // function to renderTimeLIst
-let one = false
 let timeHtmlEl 
 
 function displayTime(dates){
     timeHtmlEl = ''
-    // one = false
-    // console.log('hi')
 
     let item
     tasks.map((task) => {
@@ -101,9 +98,6 @@ function displayTime(dates){
     dates.map((date, id) => {
         if(date.taskId == locId){
             matchItem = date
-            if(matchItem){
-                one = true
-            }
             
             let endTime
             matchItem.id = id
@@ -135,27 +129,8 @@ function displayTime(dates){
                 </li>
             ` 
         }
-            // if (one != true){
-            //     timeHtmlEl =  `
-            //     <li class="li" id="li-container">
-            //         <div class="li-cont">Start a New Move</div>
-            //     </li>
-            // `
-            // }
-        // console.log(matchItem, 'matchItem')
-        // console.log(timeHtmlEl)
-        // if(one == false){
-            // console.log('nop')
 
-            // timeHtmlEl = 'hi'
-            // `
-            //     <li class="li" id="li-container">
-            //         <div class="li-cont">Start a New Move</div>
-            //     </li>
-            // `
-        // }
         timeContainer.innerHTML =  timeHtmlEl
-        // timeHtmlEl = ''
     })  
 }
 
@@ -172,7 +147,7 @@ function getRunTime(){
             const currentTime = new Date()
             dateItem.timeDiff = currentTime - time
             console.log(dateItem.timeDiff, 'timeDiff')
-            SaveTimes()
+            SaveTimes(dates)
 
         }
     }).join('')
@@ -207,7 +182,7 @@ function getEndTime(){
             item.end = `${date}`
             item.status = 'done'
             console.log(dates, 'after-end')
-            SaveTimes()
+            SaveTimes(dates)
         }
     })
 }
@@ -224,7 +199,6 @@ stopButton.addEventListener('click', () => {
 
 // for resume button
 const timeCont = document.querySelectorAll('#li-container')
-// console.log(timeCont)
 
 let greenEl
 let resumeId
@@ -246,7 +220,7 @@ timeCont.forEach((item) => {
             }else{
                 date.status = 'done'
             }
-            SaveTimes()
+            SaveTimes(dates)
         })
     })
 
@@ -259,8 +233,7 @@ function resumeTimer(){
             const timeNow = new Date()
             const newTimeDiff = timeNow - resumeStartTime
             date.timeDiff = pausedTime + newTimeDiff
-            // totalTime.innerHTML = `${timeStart.toLocaleTimeString()} | ${timeNow.toLocaleTimeString()}`
-            SaveTimes()
+            SaveTimes(dates)
             displayTime(dates)
         }else{
             greenEl.classList.add('item-info')
@@ -285,7 +258,7 @@ function backResume(){
             backButton.classList.add('item-info')
             startButton.classList.remove('item-info')
             date.status = 'done'
-            SaveTimes()
+            SaveTimes(dates)
             displayTime(dates)
             location.reload()
         }
@@ -310,7 +283,6 @@ function displayTotTime(){
     dates.map((date) => {
         if (date.timeDiff && date.taskId == locId){
             stickTime += date.timeDiff
-            // console.log(date)
         }
     })
     item.totalTime = stickTime
@@ -322,9 +294,3 @@ function displayTotTime(){
 doneButton.addEventListener('click', () => {
     displayTotTime()
 })
-
-
-
-// export function printMsg(msg){
-//     console.log(msg, "here is the improted thing")
-// }

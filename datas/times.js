@@ -6,7 +6,7 @@ export function addTime(times){
     dates.push(times)
 }
 
-export function SaveTimes(){
+export function SaveTimes(dates){
     localStorage.setItem('dates', JSON.stringify(dates))
 }
 
