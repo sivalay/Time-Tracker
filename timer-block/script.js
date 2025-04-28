@@ -21,7 +21,7 @@ let stickTime = 0
 
 const loc = window.location
 const locParse = new URL(loc).searchParams
-const locId = parseInt(locParse.get("tastId"))
+const locId = parseInt(locParse.get("taskId"))
 console.log(locParse)
 console.log(locId)
 
@@ -62,6 +62,7 @@ function displayHead(){
     `
 }
 displayHead()
+
 
 // function to renderTimeLIst
 let one = false
@@ -299,19 +300,30 @@ function displayTotTime(){
     item.totalTime = stickTime
     console.log(item.totalTime)
     SaveToStorage()
-// ----------------------------------------------------------------------------------------------------
-    // const timeDiff = (stickTime) / 1000
-    // const hours = Math.floor(timeDiff / 3600 % 24)
-    // const mins = Math.floor(timeDiff / 60) % 60
-    // const seconds = (Math.floor(timeDiff) % 60 ) + 1 
-    // const timeDiffHtml = `${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`
-    // totalTime.innerHTML = timeDiffHtml
-    // console.log(stickTime, 'stickTime wants to push to tasks')
+    console.log(stickTime, 'stickTime wants to push to tasks')
 }
 
 doneButton.addEventListener('click', () => {
     displayTotTime()
 })
+
+function displayTotalTime(){
+    let item
+    tasks.map((task) => {
+        if (task.taskId == locId){
+            item = task
+            // console.log(item, 'taskItem')
+        }
+    })
+    const timeDiff = (item.totalTime) / 1000
+    const hours = Math.floor(timeDiff / 3600 % 24)
+    const mins = Math.floor(timeDiff / 60) % 60
+    const seconds = (Math.floor(timeDiff) % 60 ) + 2
+    const timeDiffHtml = `${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`
+    totalTime.innerHTML = timeDiffHtml
+}
+
+displayTotalTime()
 
 // export function printMsg(msg){
 //     console.log(msg, "here is the improted thing")

@@ -46,7 +46,7 @@ function displayTasks(tasks){
         task.taskId = id
         return task ? `
             <div class="task-container" id="task${id}">
-                <a class="task-head" href="timer-block/index.html?tastId=${id}" data-task-id="${id}">
+                <a class="task-head" href="timer-block/index.html?taskId=${id}" data-task-id="${id}">
                     <h3>${task.tName}</h3><span>${task.tDesc}</span><span>${task.tTag}</span>
                 </a>
                 <div class="task-buttons">
