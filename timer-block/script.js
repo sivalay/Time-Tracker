@@ -294,3 +294,8 @@ function displayTotTime(){
 doneButton.addEventListener('click', () => {
     displayTotTime()
 })
+
+
+function rufMsg(msg){
+    console.log(mg, 'here comes the msg')
+}
