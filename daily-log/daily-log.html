@@ -20,13 +20,13 @@
 
         <div class="content-wrap">
             <div class="date-head">Time Log</div>
-            <div class="task-wrap">
+            <div class="task-wrap dates-wrap">
                 <div class="dates-container">
-                    <div class="date">28/04/2025</div>
+                    <!-- <div class="date">28/04/2025</div>
                     <div class="date">29/04/2025</div>
                     <div class="date">30/04/2025</div>
                     <div class="date">01/05/2025</div>
-                    <div class="date">02/05/2025</div>
+                    <div class="date">02/05/2025</div> -->
                 </div>
             </div>
             <div class="main-content">
@@ -44,6 +44,11 @@
                 <div class="graph-container">
                     <div class="date-head" style="margin-top: 10px;">Log</div>
                     <div class="canvas-place">
+                        <form action="" id="form">
+                            <input type="date" id="date-input">
+                            <button id="done-btn">Done</button>
+                        </form>
+                        <div class="output-log"></div>
                         <canvas id="my-canva"></canvas>
                     </div>
                 </div>

@@ -9,14 +9,11 @@ const startButton = document.querySelector('.st-btn')
 const stopButton = document.querySelector('.ed-btn')
 const timeContainer = document.querySelector('.time-wrap')
 const headContainer = document.querySelector('.task-details')
-// console.log(headContainer)
+const doneContainer = document.querySelector('#done-text')
 const totalTime = document.querySelector('.tot-time')
 const doneButton = document.querySelector('#btn-el')
 
 // let dates = JSON.parse(localStorage.getItem('dates')) || []
-
-// console.log(tasks.map(task => task))
-
 let stickTime = 0
 
 const loc = window.location
@@ -45,33 +42,31 @@ function getStartTime(){
     }
 }
 
+// Get the Task Item
+let taskitem
+tasks.map((task) => {
+    if (task.taskId == locId){
+        taskitem = task
+    }
+})
+
 // function to renderTimeHead
 function displayHead(){
-    let item
-    tasks.map((task) => {
-        if (task.taskId == locId){
-            item = task
-            // console.log(item, 'taskItem')
-        }
-    })
     headContainer.innerHTML = `
-        <h1 class="task-des-head">${item.tName}</h1>
-        <h3 class="task-des-subhead">${item.tDesc}</h3>
-        <h4 class="task-des-tag">${item.tTag}</h4>
+        <h1 class="task-des-head">${taskitem.tName}</h1>
+        <h3 class="task-des-subhead">${taskitem.tDesc}</h3>
+        <h4 class="task-des-tag">${taskitem.tTag}</h4>
     `
+    if (taskitem.taskStatus == 'Done'){
+        doneContainer.innerHTML = "Task Done"
+    }
 }
 displayHead()
 
 
 // function to renderTimeSum
 function displayTotalTime(){
-    let item
-    tasks.map((task) => {
-        if (task.taskId == locId){
-            item = task
-        }
-    })
-    const timeDiff = (item.totalTime) / 1000
+    const timeDiff = (taskitem.totalTime) / 1000
     const hours = Math.floor(timeDiff / 3600 % 24)
     const mins = Math.floor(timeDiff / 60) % 60
     const seconds = (Math.floor(timeDiff) % 60 ) + 1
@@ -86,13 +81,6 @@ let timeHtmlEl
 
 function displayTime(dates){
     timeHtmlEl = ''
-
-    let item
-    tasks.map((task) => {
-        if (task.taskId == locId){
-            item = task
-        }
-    })
 
     let matchItem
     dates.map((date, id) => {
@@ -169,9 +157,11 @@ function getTimeString(dateItem){
 }
 
 
-startButton.addEventListener('click', (e) => {
-    getStartTime()
-    setInterval(getRunTime, 1000)
+startButton.addEventListener('click', () => {
+    if (taskitem.taskStatus == ''){
+        getStartTime()
+        setInterval(getRunTime, 1000)
+    }
 })
 
 // function to get End Time
@@ -206,24 +196,24 @@ let resumeStartTime
 let pausedTime
 
 timeCont.forEach((item) => {
-    item.addEventListener('click', () => {
-        console.log(item)
-        resumeButton.classList.remove('item-info')
-        backButton.classList.remove('item-info')
-        startButton.classList.add('item-info')
-        resumeId = item.dataset.timeId
-        dates.map((date) => {
-            if(date.id == resumeId){
-                date.status = 'resume'
-                pausedTime = date.timeDiff
-                console.log(pausedTime)
-            }else{
-                date.status = 'done'
-            }
-            SaveTimes(dates)
+    if (taskitem.taskStatus == ''){
+        item.addEventListener('click', () => {
+            resumeButton.classList.remove('item-info')
+            backButton.classList.remove('item-info')
+            startButton.classList.add('item-info')
+            resumeId = item.dataset.timeId
+            dates.map((date) => {
+                if(date.id == resumeId){
+                    date.status = 'resume'
+                    pausedTime = date.timeDiff
+                    console.log(pausedTime)
+                }else{
+                    date.status = 'done'
+                }
+                SaveTimes(dates)
+            })
         })
-    })
-
+    }
 })
 
 function resumeTimer(){
@@ -272,30 +262,45 @@ backButton.addEventListener('click', backResume)
 
 // function to get totalTime
 function displayTotTime(){
-    console.log("hoi")
-    let item
-    tasks.map((task) => {
-        if (task.taskId == locId){
-            item = task
-        }
-    })
-
+    
     dates.map((date) => {
         if (date.timeDiff && date.taskId == locId){
             stickTime += date.timeDiff
         }
     })
-    item.totalTime = stickTime
-    console.log(item.totalTime)
+    taskitem.totalTime = stickTime
+    console.log(taskitem.totalTime)
     SaveToStorage()
-    console.log(stickTime, 'stickTime wants to push to tasks')
 }
 
 doneButton.addEventListener('click', () => {
     displayTotTime()
+    taskitem.taskStatus = 'Done'
+    SaveToStorage()
 })
 
+// function to check if task is done
+// function checkDone(){
+//     // let item
+//     // tasks.map((task) => {
+//     //     if (task.taskId == locId){
+//     //         item = task
+//     //     }
+//     // })
+//     if (taskitem.taskStatus == 'Done'){
+//         console.log("It's Done")
+//         // startButton.removeEventListener('click', ())
+//     }
+// }
 
-function rufMsg(msg){
-    console.log(mg, 'here comes the msg')
-}
+// checkDone()
+
+// const msg = "Hello"
+
+// function displayMsg(msg){
+//     console.log(msg, "Here is the msg")
+//     console.log("start the process")
+//     console.log("Here it comes")
+// }
+
+// displayMsg()

@@ -383,6 +383,8 @@ h1{
     border-color: #000;
 }
 
+/* .time-log.task-container */
+
 .canvas-place{
     width: 100%;
     height: 100%;
@@ -462,8 +464,21 @@ canvas{
     }
 
     .time-log{
-        width: 100px;
         height: fit-content;
+    }
+
+    .time-log::-webkit-scrollbar{
+        display: none;
+    }
+
+    .time-log .task-container{
+        flex: 1;
+    }
+
+    .time-log .task-head{
+        width: 100%;
+        /* padding: 0px 20px; */
+        padding-right: 20px;
     }
 
     .dates-container{
