@@ -279,28 +279,10 @@ doneButton.addEventListener('click', () => {
     SaveToStorage()
 })
 
-// function to check if task is done
-// function checkDone(){
-//     // let item
-//     // tasks.map((task) => {
-//     //     if (task.taskId == locId){
-//     //         item = task
-//     //     }
-//     // })
-//     if (taskitem.taskStatus == 'Done'){
-//         console.log("It's Done")
-//         // startButton.removeEventListener('click', ())
-//     }
-// }
-
-// checkDone()
-
 // const msg = "Hello"
 
 // function displayMsg(msg){
-//     console.log(msg, "Here is the msg")
-//     console.log("start the process")
-//     console.log("Here it comes")
+//     console.log(msg, "msg")
 // }
 
 // displayMsg()
