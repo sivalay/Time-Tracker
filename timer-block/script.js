@@ -15,6 +15,9 @@ const doneButton = document.querySelector('#btn-el')
 
 // let dates = JSON.parse(localStorage.getItem('dates')) || []
 let stickTime = 0
+let newTimeDiff = ''
+let resumeDiff
+
 
 const loc = window.location
 const locParse = new URL(loc).searchParams
@@ -69,7 +72,7 @@ function displayTotalTime(){
     const timeDiff = (taskitem.totalTime) / 1000
     const hours = Math.floor(timeDiff / 3600 % 24)
     const mins = Math.floor(timeDiff / 60) % 60
-    const seconds = (Math.floor(timeDiff) % 60 ) + 1
+    const seconds = (Math.floor(timeDiff) % 60)
     const timeDiffHtml = `${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`
     totalTime.innerHTML = timeDiffHtml
 }
@@ -101,7 +104,7 @@ function displayTime(dates){
             const timeDiff = (matchItem.timeDiff) / 1000
             const hours = Math.floor(timeDiff / 3600 % 24)
             const mins = Math.floor(timeDiff / 60) % 60
-            const seconds = (Math.floor(timeDiff) % 60 ) + 1 
+            const seconds = (Math.floor(timeDiff) % 60) 
             const timeDiffHtml = `${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`
 
             timeHtmlEl += `
@@ -167,11 +170,41 @@ startButton.addEventListener('click', () => {
 // function to get End Time
 function getEndTime(){
     const date = new Date()
+    console.log('hi')
     const r = dates.map((item, id) => {
         if (item.status === 'processing' || item.status == 'resume'){
             item.end = `${date}`
             item.status = 'done'
+
+            // if (resumeDiff == item.timeDiff){
+            //     item.timeLogs = [resumeDiff]
+            //     console.log("It's Eaqual")
+            // }else if((resumeDiff != item.timeDiff) && resumeDiff != 0){
+            //     item.timeLogs = [{
+            //         newTimeDiff : item.timeDiff,
+            //         endLog : item.start
+    
+            //     }]
+            //     console.log("It's not the same")
+            // }
+
+            console.log(item.timeDiff)
+
+            if(newTimeDiff != ''){
+                resumeDiff = newTimeDiff
+            }else{
+                resumeDiff = item.timeDiff
+            }
+            const timeLog = {
+                newTimeDiff : item.timeDiff,
+                endLog : date
+            }
+            console.log(timeLog, 'timeLog')
+            console.log("Here is the time Diff n Date")
+            taskitem.timeLogs.push(timeLog)
+            console.log(taskitem.timeLogs)
             console.log(dates, 'after-end')
+            SaveToStorage()
             SaveTimes(dates)
         }
     })
@@ -219,9 +252,11 @@ timeCont.forEach((item) => {
 function resumeTimer(){
     dates.map((date) => {
         if (date.status == 'resume'){
-            const timeStart = resumeStartTime
+            // const timeStart = resumeStartTime
             const timeNow = new Date()
-            const newTimeDiff = timeNow - resumeStartTime
+            newTimeDiff = timeNow - resumeStartTime
+            resumeDiff = newTimeDiff
+            console.log(resumeDiff, 'resume time diffs')
             date.timeDiff = pausedTime + newTimeDiff
             SaveTimes(dates)
             displayTime(dates)
@@ -235,6 +270,7 @@ function resumeTimer(){
 
 resumeButton.addEventListener('click', () => {
     resumeStartTime = new Date()
+    backButton.classList.add('item-info')
     greenEl = document.querySelector(`#task${resumeId}`)
     console.log(greenEl)
     setInterval(resumeTimer, 1000)
@@ -269,7 +305,7 @@ function displayTotTime(){
         }
     })
     taskitem.totalTime = stickTime
-    console.log(taskitem.totalTime)
+    // console.log(taskitem.totalTime)
     SaveToStorage()
 }
 
@@ -279,10 +315,28 @@ doneButton.addEventListener('click', () => {
     SaveToStorage()
 })
 
-// const msg = "Hello"
+// dates.map((item) => {
+//     if (item.taskId == 4){
+//         console.log(item)
+//         const itemNow = (item.timeLogs)
+//         console.log(itemNow)
+//         let k
+//         let k1
+//         itemNow.map((logItem) => {
+//             k = new Date(logItem.endLog)
+//             k1 = logItem.newTimeDiff
+//             console.log(k)
+//             console.log(k1)
+//         })
+//         // const nowString = new Date(itemNow)
+//         // console.log(nowString, 'nowString')
+//         const timeDiff = (k1) / 1000
+//         const hours = Math.floor(timeDiff / 3600 % 24)
+//         const mins = Math.floor(timeDiff / 60) % 60
+//         const seconds = (Math.floor(timeDiff) % 60 ) + 1
+//         console.log(`${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`)
+//         // const itemDate = nowString.getDate()
+//         // console.log(itemDate)
+//     }
+// })
 
-// function displayMsg(msg){
-//     console.log(msg, "msg")
-// }
-
-// displayMsg()

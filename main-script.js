@@ -24,29 +24,46 @@ function addTasks(e){
     const tName = taskName.value
     const tDesc = taskDesc.value
     const tTag = taskTag.value
+    let tId
+
+    if (tasks.length == 0){
+        tId = 0
+    }
+    if (tasks.length != 0){
+        tId = tasks.at(-1).taskId + 1
+    }
+    console.log(tId, 'tId')
 
     const task = {
         tName,
         tDesc,
         tTag,
-        taskId : (tasks.at(-1).taskId) + 1,
+        taskId : tId,
         totalTime : '',
-        taskStatus : ''
+        taskStatus : '',
+        timeLogs : []
     }
     console.log(e)
-    const tId = tasks.at(-1).taskId
-    console.log(tId, 'Last TaskId is here')
+    // const tId = tasks.at(-1).taskId
+    // console.log(tId, 'Last TaskId is here')
     // tasks.push(task)
     addTask(task)
-    displayTasks(tasks)
     // localStorage.setItem('tasks', JSON.stringify(tasks))
     SaveToStorage()
+    displayTasks(tasks)
 
 }
-
+// console.log(tasks.at(-1).taskId, 'Last TaskId')
 
 function displayTasks(tasks){
     taskList.innerHTML = tasks.map((task) => {
+        // if(tasks.length == 1 && !tasks.at(-1).taskId){
+        //     task.taskId = 0
+        // }else{
+        //     task.taskId = (tasks.at(-1).taskId) + 1 
+        //     // tasks ? (tasks.at(-1).taskId) + 1 : 0
+        // }
+        // SaveToStorage()
         return task ? `
             <div class="task-container" id="task${task.taskId}">
                 <a class="task-head" href="timer-block/index.html?taskId=${task.taskId}" data-task-id="${task.taskId}">
