@@ -96,7 +96,7 @@ dateEl.forEach((dateItem) => {
 function displayTasks(){
     let timeArrayItem
     const currentDate = (new Date()).toLocaleDateString()
-    // console.log(currentDate, 'currentDate')
+    console.log(currentDate, 'currentDate')
     tasks.map((task) => {    
         let diffSum = 0  
         task.timeLogs.map((timeItem) => {
@@ -104,9 +104,9 @@ function displayTasks(){
             // console.log(logDate, 'logDate')
             if (currentDate == logDate){
                 
-                
                 // console.log(task.timeLogs, task.tName)
                 // console.log(timeItem.newTimeDiff)
+
                 diffSum =diffSum + timeItem.newTimeDiff
             }
         })
