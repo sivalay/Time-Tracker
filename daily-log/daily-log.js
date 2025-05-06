@@ -24,8 +24,6 @@ const now = new Date()
 function displayEl(){
     getWeek()
     displayDates()
-    // displayTasks(now)
-    // location.reload()
 }
 displayEl()
 
@@ -93,7 +91,11 @@ function displayTasks(now){
     taskHead.innerHTML = ''
     const currentDate = (new Date(now)).toLocaleDateString()
     // console.log(currentDate, 'currentDate')
+    // tasks.map((task) => {
+    //     console.log(task, 'task')
+    // })
     tasks.map((task) => {    
+        console.log("task")
         let diffSum = 0  
         task.timeLogs.map((timeItem) => {
             logDate = (new Date(`${timeItem.endLog}`)).toLocaleDateString()
@@ -112,10 +114,13 @@ function displayTasks(now){
             const timeDiff = (diffSum) / 1000
             // console.log(timeDiff)
             const hours = Math.floor(timeDiff / 3600 % 24)
-            const mins = Math.floor(timeDiff / 60) % 60
-            console.log(mins, 'mins')
+            const minss = (Math.floor(timeDiff / 60) % 60)
+            console.log(minss, 'minss')
+            const mins = Math.round((Math.floor(timeDiff / 60) % 60) / 10)
+            console.log(formatTime(mins), 'mins')
+            // const min = formatTime(mins)
             // const seconds = (Math.floor(timeDiff) % 60) 
-            const timeDiffHtml = `${formatTime(hours)}.${formatTime(mins)}`
+            const timeDiffHtml = `${hours}.${formatTime(mins)}`
             // console.log(timeDiffHtml)
             timeArray.push(timeDiffHtml)
             taskArray.push(task.tName)
@@ -147,26 +152,28 @@ displayTasks(now)
 
 // function to transform time
 function formatTime(time){
-    return time < 10 ? (`0${time}`) : time
+    // console.log("Oopz")
+    return time == '0' ? 1 : time
 }
 
 // function to get the touched date graph
-// function touchruf(now){
-//     const nowDate = (new Date(now)).toLocaleDateString()
-//     console.log(nowDate, 'now-date-string')
-//     tasks.map((taskItem) => {
-//         taskItem.timeLogs.map((log) => {
-//             const logDate = (new Date(`${log.endLog}`)).toLocaleDateString()
-//             console.log(logDate, 'now-date-fromlog')
-//             if (logDate === nowDate){
-//                 console.log(log, 'This is the log')
-//                 // console.log(logDate, "This is the log")
-//                 console.log(logDate)
-//                 // displayChart()
-//             }
-//         })
-//     })
-// }
+function touchruf(now){
+    const nowDate = (new Date(now)).toLocaleDateString()
+    console.log(nowDate, 'now-date-string')
+    tasks.map((taskItem) => {
+        taskItem.timeLogs.map((log, id) => {
+            console.log(id, "id")
+            const logDate = (new Date(`${log.endLog}`)).toLocaleDateString()
+            console.log(logDate, 'now-date-fromlog')
+            if (logDate === nowDate){
+                console.log(logDate, 'This is the logDate')
+                console.log(log, "the log")
+                console.log(logDate, "logDate")
+                // displayChart()
+            }
+        })
+    })
+}
 
 // displaying Chart.js
 function displayChart(){
@@ -184,13 +191,30 @@ function displayChart(){
             legent : {display: false},
             scales : {
                 yAxes : [{
+                    // min : 0,
+                    // max : 10,
                     ticks : {
-                        beginAtZero : true
+                        beginAtZero : true,
+                        type : 'time',
+                        time : {
+                            unit : 'second',
+                            tooltipFormat : 'HH:mm:ss'
+                        },
+                        
+                        // stepSize : 0.9
+                        // callback : function (value){
+                        //     return value.toFixed(1)
+                        // }
+                        // callback : function (value){
+                        //     value.map((item) => {
+                        //         return item.toFixed(1)
+                        //     })
+                        // }
                     }
                 }]
             },
             title : {
-                display : true,
+                display : false,
                 text : "Time Log"
             }
         }
@@ -200,11 +224,11 @@ displayChart()
 
 
 
-// function printingMsg(msg){
-//     console.log("The msg wanted to print")
-//     console.log("Here..")
-//     console.log(msg, 'var')
-// }
+function printingMsg(msg){
+    console.log("The msg wanted to print")
+    console.log("Here..")
+    console.log(msg, 'var')
+}
 
 
 // how to draw a graph in canvas with javascript!?

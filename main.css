@@ -168,6 +168,10 @@ h3{
     display: none;
 }
 
+.item-info-container nav{
+    border-radius: 5px 5px 0px 0px;
+}
+
 .item-info-container form{
     display: flex;
     flex-flow: column;
@@ -403,122 +407,48 @@ canvas{
     /* object-fit: contain; */
 }
 
-.dark-bag{
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    flex: 1 1 0;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    text-decoration: 1px underline black;
-    background-color: darkred;
-    flex-wrap: wrap;
-    text-wrap: wrap;
-    border: none;
-}
-
-.rounded-box{
-    display: flex;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    left: 0;
-    top: 0;
-    flex-flow: column-reverse;
-    flex: 1;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: cente;
-}
-
-.rapid-box{
-    display: block;
-    border: 1px solid black;
-    padding: 20px 40px 39px 20px;
-    margin: 10px 10px 230px 20px;
-}
-
-.add-taks{
-    width: 100%;
-    height: 100%;
-    padding: 10px;
-    margin: 10px;
-    text-align: center;
-    text-wrap: nowrap;
-    text-wrap-mode: nowrap;
-    border: 1px solid #000;
-}
-
-.taks-plate{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 10px;
-    flex: 1 1 0;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    text-wrap: nowrap;
-    flex-wrap: nowrap;
-    text-wrap-mode: nowrap;
-}
-
-
-
 @media screen and (min-width: 768px) {
     nav{
         padding: 10px 40px;
     }
-
     #home-button{
         height: 47px;
     }
-
     .button{
         font-size: 18px;
     }
-
     .content-wrap{
         padding: 40px;
         margin-top: 35px;
     }
-
     .task-container{
         align-items: center;
     }
-
     .time-log{
         margin-top: 20px;
     }
-
     .task-buttons{
         display: flex;
         flex-flow: row;
         gap: 5px;
     }
-
     .li{
         flex-flow: row;
         flex-wrap: nowrap;
         gap: 80px;
         padding: 30px 60px;
     }
-
     .form-cont div{
         flex-flow: row;
         align-items: center;
         width: fit-content;
     }
-
     .item-info-container form{
         padding: 40px;
     }
-
     .task-wrap{
         max-height: 278px;
     }
-
     .green-signal{
         left: 20px;
         top: 38px;
@@ -526,43 +456,28 @@ canvas{
     }
 
     /*   time-log   */
-    .main-content{
-        display: flex;
-        flex-flow: row-reverse;
-        justify-content: space-between;
-        gap: 10px;
-    }
 
-    .time-log{
-        height: fit-content;
+    .time-wrap{
+        padding-top: 0;
+        padding-bottom: 0;
     }
-
-    .time-log::-webkit-scrollbar{
-        display: none;
-    }
-
     .time-log .task-container{
         flex: 1;
     }
-
     .time-log .task-head{
         width: 100%;
         /* padding: 0px 20px; */
         padding-right: 20px;
     }
-
     .dates-container{
         flex-wrap: wrap;
     }
-
     .canvas-place{
         min-height: auto;
     }
-
     canvas{
         min-height: auto;
     }
-
     .rounded-box{
         display: block;
         position: relative;
@@ -574,8 +489,59 @@ canvas{
 
 }
 
-@media screen and (min-width:770px) {
+@media screen and (min-width:1024px) {
+    .content-wrap{
+        padding: 40px;
+    }
     .item-info-container form{
         flex-flow: row;
+    }
+    .main-content{
+        display: flex;
+        flex-flow: row-reverse;
+        justify-content: space-between;
+        gap: 10px;
+        padding-top: 50px;
+    }
+    .time-log{
+        min-width: 200px;
+        height: fit-content;
+    }
+    .canvas-place{
+        height: fit-content;
+    }
+    .graph-container{
+        min-width: 600px;
+    }
+    .time-log::-webkit-scrollbar{
+        display: none;
+    }
+}
+
+@media screen and (min-width:1440px) {
+    nav{
+        padding: 10px 80px;
+    }
+    .content-wrap{
+        padding: 0px 80px;
+    }
+    .item-info-container form{
+        padding: 40px 80px;
+    }
+    .timer-wrap{
+        padding: 40px 80px;
+    }
+    .li{
+        /* align-items: center; */
+        justify-content: center;
+    }
+    .canvas-place{
+        height: auto;
+    }
+    .time-log{
+        min-width: 300px;
+    }
+    .graph-container{
+        width: 100%;
     }
 }
