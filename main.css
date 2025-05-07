@@ -49,6 +49,7 @@ h3{
     position: relative;
     padding: 10px;
     margin-top: 20px;
+    padding-bottom: 0px;
 }
 
 .search-container{
@@ -109,6 +110,9 @@ h3{
 
 .tasks-wrap, .task-wrap{
     width: 100%;
+    max-height: 540px;
+    overflow: hidden;
+    overflow-y: scroll;
     display: flex;
     gap: 10px;
     flex-flow: column;
@@ -120,7 +124,7 @@ h3{
 }
 
 .task-wrap{
-    max-height: 310px;
+    max-height: 260px;
     overflow: hidden;
     overflow-y: scroll;
 }
@@ -231,13 +235,8 @@ h3{
 
 /* -----------timer-page------------- */
 
-.wrap{
-    min-width: 400px;
-    display: flex;
-    flex-flow: column;
-    gap: 20px;
-    background-color: rgb(183, 187, 183);
-    padding: 20px;
+.timer-wrap{
+    padding: 0px 10px;
 }
 
 .timer-head{
@@ -421,9 +420,15 @@ canvas{
         padding: 40px;
         margin-top: 35px;
     }
+    .timer-wrap{
+        padding: 0px 40px;
+    }
     .task-container{
         align-items: center;
     }
+    /* .task-wrap{
+        max-height: ;
+    } */
     .time-log{
         margin-top: 20px;
     }
@@ -438,6 +443,9 @@ canvas{
         gap: 80px;
         padding: 30px 60px;
     }
+    .start-text{
+        padding: 10px 60px;
+    }
     .form-cont div{
         flex-flow: row;
         align-items: center;
@@ -447,7 +455,7 @@ canvas{
         padding: 40px;
     }
     .task-wrap{
-        max-height: 278px;
+        max-height: 250px;
     }
     .green-signal{
         left: 20px;
@@ -490,9 +498,9 @@ canvas{
 }
 
 @media screen and (min-width:1024px) {
-    .content-wrap{
+    /* .content-wrap{
         padding: 40px;
-    }
+    } */
     .item-info-container form{
         flex-flow: row;
     }
@@ -501,7 +509,7 @@ canvas{
         flex-flow: row-reverse;
         justify-content: space-between;
         gap: 10px;
-        padding-top: 50px;
+        /* padding-top: 50px; */
     }
     .time-log{
         min-width: 200px;
@@ -528,13 +536,18 @@ canvas{
     .item-info-container form{
         padding: 40px 80px;
     }
-    .timer-wrap{
-        padding: 40px 80px;
-    }
     .li{
-        /* align-items: center; */
         justify-content: center;
     }
+    /* .dates-wrap{
+        background-color: transparent;
+        box-shadow: none;
+        justify-content: center;
+    }
+    .date{
+        background-color: rgb(183, 187, 183);
+        color: rgb(232, 245, 232);
+    } */
     .canvas-place{
         height: auto;
     }
@@ -543,5 +556,9 @@ canvas{
     }
     .graph-container{
         width: 100%;
+        max-width: 800px;
+    }
+    canvas{
+        max-height: 800px;
     }
 }

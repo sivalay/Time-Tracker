@@ -116,11 +116,11 @@ function displayTasks(now){
             const hours = Math.floor(timeDiff / 3600 % 24)
             const minss = (Math.floor(timeDiff / 60) % 60)
             console.log(minss, 'minss')
-            const mins = Math.round((Math.floor(timeDiff / 60) % 60) / 10)
+            const mins = Math.round((Math.floor(timeDiff / 60) % 60) / 6)
             console.log(formatTime(mins), 'mins')
             // const min = formatTime(mins)
             // const seconds = (Math.floor(timeDiff) % 60) 
-            const timeDiffHtml = `${hours}.${formatTime(mins)}`
+            const timeDiffHtml = `${hours}.${formatTime(minss)}`
             // console.log(timeDiffHtml)
             timeArray.push(timeDiffHtml)
             taskArray.push(task.tName)
@@ -157,23 +157,23 @@ function formatTime(time){
 }
 
 // function to get the touched date graph
-function touchruf(now){
-    const nowDate = (new Date(now)).toLocaleDateString()
-    console.log(nowDate, 'now-date-string')
-    tasks.map((taskItem) => {
-        taskItem.timeLogs.map((log, id) => {
-            console.log(id, "id")
-            const logDate = (new Date(`${log.endLog}`)).toLocaleDateString()
-            console.log(logDate, 'now-date-fromlog')
-            if (logDate === nowDate){
-                console.log(logDate, 'This is the logDate')
-                console.log(log, "the log")
-                console.log(logDate, "logDate")
-                // displayChart()
-            }
-        })
-    })
-}
+// function touchruf(now){
+//     const nowDate = (new Date(now)).toLocaleDateString()
+//     console.log(nowDate, 'now-date-string')
+//     tasks.map((taskItem) => {
+//         taskItem.timeLogs.map((log, id) => {
+//             console.log(id, "id")
+//             const logDate = (new Date(`${log.endLog}`)).toLocaleDateString()
+//             console.log(logDate, 'now-date-fromlog')
+//             if (logDate === nowDate){
+//                 console.log(logDate, 'This is the logDate')
+//                 console.log(log, "the log")
+//                 console.log(logDate, "logDate")
+//                 // displayChart()
+//             }
+//         })
+//     })
+// }
 
 // displaying Chart.js
 function displayChart(){
@@ -188,7 +188,7 @@ function displayChart(){
             }]
         },
         options : {
-            legent : {display: false},
+            legend : {display: false},
             scales : {
                 yAxes : [{
                     // min : 0,
@@ -197,7 +197,7 @@ function displayChart(){
                         beginAtZero : true,
                         type : 'time',
                         time : {
-                            unit : 'second',
+                            unit : 'hour',
                             tooltipFormat : 'HH:mm:ss'
                         },
                         
