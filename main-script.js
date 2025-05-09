@@ -43,27 +43,15 @@ function addTasks(e){
         taskStatus : '',
         timeLogs : []
     }
-    console.log(e)
-    // const tId = tasks.at(-1).taskId
-    // console.log(tId, 'Last TaskId is here')
-    // tasks.push(task)
     addTask(task)
     // localStorage.setItem('tasks', JSON.stringify(tasks))
     SaveToStorage()
     displayTasks(tasks)
 
 }
-// console.log(tasks.at(-1).taskId, 'Last TaskId')
 
 function displayTasks(tasks){
     taskList.innerHTML = tasks.map((task) => {
-        // if(tasks.length == 1 && !tasks.at(-1).taskId){
-        //     task.taskId = 0
-        // }else{
-        //     task.taskId = (tasks.at(-1).taskId) + 1 
-        //     // tasks ? (tasks.at(-1).taskId) + 1 : 0
-        // }
-        // SaveToStorage()
         return task ? `
             <div class="task-container" id="task${task.taskId}">
                 <a class="task-head" href="timer-block/index.html?taskId=${task.taskId}" data-task-id="${task.taskId}">
@@ -107,17 +95,6 @@ deleteEl.forEach((item) => {
         })
         const index = tasks.indexOf(matchItem)
         tasks.splice(index, 1)
-        // let count = 0
-        // dates.map((date) => {
-        //     if (date.taskId == matchItem.taskId){
-        //         console.log(date)
-        //         // count += 1
-        //         const timeIndex = dates.indexOf(date)
-        //         dates.splice(timeIndex, 1)
-        //         // SaveTimes(dates)
-        //         console.log(count, 'count inside')
-        //     }
-        // })
         const timeList = dates.filter(dateItem => dateItem.taskId != matchItem.taskId)
         console.log(timeList, 'timeList')
         SaveTimes(timeList)

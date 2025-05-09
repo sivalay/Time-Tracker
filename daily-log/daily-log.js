@@ -9,6 +9,8 @@ const display = document.querySelector('.output-log')
 const inputs = document.querySelector('#date-input')
 const doneBt = document.querySelector('#done-btn')
 
+const searchEl = document.querySelector('#search')
+const searchBt = document.querySelector('#search-button')
 
 
 const today = new Date()
@@ -84,16 +86,27 @@ dateEl.forEach((dateItem) => {
     })
 })
 
+// to search date
+searchBt.addEventListener('click', (e) => {
+    e.preventDefault()
+    const val = searchEl.value
+    const newDate = new Date(val)
+    const matchDate = newDate.toLocaleDateString()
+    console.log(val, 'search-value')
+    console.log(matchDate, 'date')
+    dateHead.innerHTML = matchDate
+    taskArray = []
+    timeArray = []
+    displayTasks(newDate)
+    searchEl.value = ''
+})
+
 
 // first display of tasks for today
 function displayTasks(now){
     let logDate
     taskHead.innerHTML = ''
     const currentDate = (new Date(now)).toLocaleDateString()
-    // console.log(currentDate, 'currentDate')
-    // tasks.map((task) => {
-    //     console.log(task, 'task')
-    // })
     tasks.map((task) => {    
         console.log("task")
         let diffSum = 0  
@@ -149,30 +162,12 @@ function displayTasks(now){
     displayChart()
 }
 displayTasks(now)
-
-// function to transform time
 function formatTime(time){
-    // console.log("Oopz")
-    return time == '0' ? 1 : time
+    return time < 10 ? (`0${time}`) : time
 }
-
-// function to get the touched date graph
-// function touchruf(now){
-//     const nowDate = (new Date(now)).toLocaleDateString()
-//     console.log(nowDate, 'now-date-string')
-//     tasks.map((taskItem) => {
-//         taskItem.timeLogs.map((log, id) => {
-//             console.log(id, "id")
-//             const logDate = (new Date(`${log.endLog}`)).toLocaleDateString()
-//             console.log(logDate, 'now-date-fromlog')
-//             if (logDate === nowDate){
-//                 console.log(logDate, 'This is the logDate')
-//                 console.log(log, "the log")
-//                 console.log(logDate, "logDate")
-//                 // displayChart()
-//             }
-//         })
-//     })
+// function to transform time
+// function formatTime(time){
+//     return time == '0' ? 1 : time
 // }
 
 // displaying Chart.js
