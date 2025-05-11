@@ -196,7 +196,15 @@ function displayChart(){
                             tooltipFormat : 'HH:mm:ss'
                         },
                         
-                        
+                        // stepSize : 0.9
+                        // callback : function (value){
+                        //     return value.toFixed(1)
+                        // }
+                        // callback : function (value){
+                        //     value.map((item) => {
+                        //         return item.toFixed(1)
+                        //     })
+                        // }
                     }
                 }]
             },

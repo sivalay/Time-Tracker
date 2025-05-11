@@ -17,18 +17,67 @@ body{
 
 
 /* login-page */
-h1{
+/* h1{
     margin: 0;
-}
+} */
 
 .login-wrap{
     max-width: 600px;
-    max-height: 400px;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(183, 187, 183);
     margin: auto;
+}
+
+.login-cont{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    background-color: rgb(183, 187, 183);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 10px;
+    margin: 80px;
+}
+
+.head-cont{
+    display: flex;
+    gap: 20px;
+    padding: 0 0 20px;
+}
+
+.log-form{
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
+}
+
+.bt-cont{
+    display: flex;
+    justify-content: right;
+}
+
+.log-form .button{
+    margin-top: 20px;
+    width: fit-content;
+    color: #000;
+}
+
+.input-cont{
+    display: flex;
+    gap: 10px;
+}
+.input-cont label{
+    width: 90px;
+}
+
+.underlines{
+    text-decoration: 2px underline red;
+    text-underline-offset: 10px;
+}
+
+.disabled{
+    color: rgb(127, 133, 127);
 }
 
 /* main index */
@@ -435,6 +484,12 @@ canvas{
 }
 
 @media screen and (min-width: 768px) {
+    .login-cont{
+        padding: 20px 60px;
+    }
+    .head-cont{
+        gap: 50px;
+    }
     nav{
         padding: 10px 40px;
     }
