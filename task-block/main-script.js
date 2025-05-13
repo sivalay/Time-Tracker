@@ -1,5 +1,6 @@
-import { tasks, addTask, SaveToStorage } from "./datas/tasks.js"
+import { tasks, addTask, SaveToStorage } from "../datas/tasks.js"
 import { dates, addTime, SaveTimes } from "../datas/times.js"
+import { people, personId } from "../datas/people.js"
 
 
 const addEl = document.querySelector('#add-el')
@@ -15,10 +16,21 @@ const taskList = document.querySelector('.tas')
 
 const searchEl = document.querySelector('#search')
 const searchBt = document.querySelector('#search-button')
-// console.log(searchEl)
-// console.log(searchBt)
 
-// const tasks = JSON.parse(localStorage.getItem('tasks'))
+const personInfo = document.querySelector('.person')
+const infoCont = document.querySelector('.info-cont')
+const personBackBt = document.querySelector('.person-back-btn')
+const personContainer = document.querySelector('.person-info-cont')
+const logoutBt = document.querySelector('#person-logout')
+
+console.log(personInfo, 'personInfo')
+
+const loc = window.location
+const locParse = new URL(loc).searchParams
+let perId = parseInt(locParse.get("personId"))
+console.log(perId, 'perId')
+// personId = perId
+console.log(personId, 'personId')
 
 function addTasks(e){
     const tName = taskName.value
@@ -54,7 +66,7 @@ function displayTasks(tasks){
     taskList.innerHTML = tasks.map((task) => {
         return task ? `
             <div class="task-container" id="task${task.taskId}">
-                <a class="task-head" href="timer-block/index.html?taskId=${task.taskId}" data-task-id="${task.taskId}">
+                <a class="task-head" href="../timer-block/index.html?taskId=${task.taskId}" data-task-id="${task.taskId}">
                     <h3>${task.tName}</h3><span>${task.tDesc}</span><span>${task.tTag}</span>
                 </a>
                 <div class="task-buttons">
@@ -204,4 +216,37 @@ searchBt.addEventListener('click', (e) => {
     searchTasks()
 })
 
+// to display person details
+function displayPerson(){
+    let matchItem
+    people.map((peo) => {
+        if (peo.pId == perId){
+            matchItem = peo
+            console.log(matchItem, 'matchItem')
+        }
+        console.log(peo, 'peo-element')
+    })
+    infoCont.innerHTML = `
+        <div>
+            <div class="person-email">${matchItem.email}</div>
+            <div class="person-pic">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+            </div>
+            <div class="person-name">${matchItem.name}</div>
+        </div>
+    `
+}
+
+personInfo.addEventListener('click', (e) => {
+    e.preventDefault()
+    personContainer.classList.remove('item-info')
+    displayPerson()
+})
+console.log(personBackBt,'back-btn')
+
+personBackBt.addEventListener('click', () => {
+    personContainer.classList.add('item-info')
+})
 

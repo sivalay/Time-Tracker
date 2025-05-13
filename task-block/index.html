@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Tracker</title>
+    <link rel="stylesheet" href="../main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"/>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> -->
+
+</head>
+<body>
+    
+    <div class="main-wrap">
+        <nav>
+            <div><button class="button" id="add-el"><i class="fas fa-plus"></i>Add New</button></div>
+            <div class="right-bt-cont">
+                <!-- <button class="button" id="delete-el"><i class="fas fa-trash"></i>Delete</button> -->
+                <a href="../daily-log/daily-log.html"><button class="button" id="history-el">Daily Log</button></a>
+                <button class="button person">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                      </svg>
+                                            
+                </button>
+            </div>
+
+        </nav>
+        <div class="person-info-cont item-info">
+            <div class="person-back-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>  
+            </div>
+            <div class="info-cont"></div>
+            <div class="person-btn-cont">
+                <a href="../index.html"><button class="button" id="person-logout">Logout</button></a>
+            </div>
+            <!-- <div>
+                <div class="person-email">test@gmail.com</div>
+                <div class="person-pic">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                </div>
+                <div class="person-name">testName</div>
+                <div class="person-btn-cont">
+                    <button class="button" id="person-logout">Logout</button>
+                </div>
+            </div> -->
+        </div>
+
+        <div class="content-wrap">
+            <div class="search-container">
+                <form action="" class="form">
+
+                    <div class="search-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                      </svg>
+                    </div>
+
+                    <input type="search" placeholder="search by tag" id="search">
+                    <button type="submit" id="search-button"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                      </svg>
+                      
+                    </button>
+                </form>
+                <button class="all-btn item-info">All</button>
+            </div>
+            <div class="tasks-wrap">
+                <div class="task-container">
+                    <div class="by-default-text">- Make a New Task -</div>
+                </div>
+                <div class="tas">
+
+                </div>
+            </div>
+        </div>
+        
+        <div class="item-info-container item-info" id="add-container">
+            <nav>
+                <button class="button back-btn"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
+                </svg>
+                </button>
+            </nav>
+        
+            <form action="">
+                <div class="form-cont">
+                    <div>
+                        <label for="task-name">Task Name : </label>
+                        <input type="text" id="task-name">
+                    </div>
+
+                    <div>
+                        <label for="task-description">Task Description : </label>
+                        <input type="text" id="task-description">
+                    </div>
+
+                    <div>
+                        <label for="task-tags">Task Tag Name : </label>
+                        <input type="text" id="task-tag">
+                    </div>
+                </div>
+
+                <button class="button" id="add-btn" type="submit">Add</button>
+                <button class="button edit-task" id="edit-btn" type="submit">Edit</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="./main-script.js"></script>
+</body>
+</html>

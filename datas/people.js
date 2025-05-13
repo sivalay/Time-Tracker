@@ -8,3 +8,5 @@ export function addPerson(person){
 export function savePerson(){
     localStorage.setItem('people', JSON.stringify(people))
 }
+
+export let personId

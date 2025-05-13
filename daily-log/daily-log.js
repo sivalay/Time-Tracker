@@ -133,7 +133,7 @@ function displayTasks(now){
             console.log(formatTime(mins), 'mins')
             // const min = formatTime(mins)
             // const seconds = (Math.floor(timeDiff) % 60) 
-            const timeDiffHtml = `${hours}.${formatTime(minss)}`
+            const timeDiffHtml = `${hours}.${minss}`
             // console.log(timeDiffHtml)
             timeArray.push(timeDiffHtml)
             taskArray.push(task.tName)
@@ -198,7 +198,7 @@ function displayChart(){
                         
                         // stepSize : 0.9
                         // callback : function (value){
-                        //     return value.toFixed(1)
+                        //     return value.toFixed(2)
                         // }
                         // callback : function (value){
                         //     value.map((item) => {
