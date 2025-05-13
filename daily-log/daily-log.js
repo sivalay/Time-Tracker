@@ -11,7 +11,18 @@ const doneBt = document.querySelector('#done-btn')
 
 const searchEl = document.querySelector('#search')
 const searchBt = document.querySelector('#search-button')
+const homeBt = document.querySelector('.home-bt')
 
+const loc = window.location
+const locParse = new URL(loc).searchParams
+let perId = parseInt(locParse.get("personId"))
+console.log(perId, 'perId')
+
+
+homeBt.addEventListener('click', (e) => {
+    e.preventDefault()
+    window.location = `../task-block/index.html?personId=${perId}`
+})
 
 const today = new Date()
 let weekDates = []

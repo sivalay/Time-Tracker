@@ -21,7 +21,7 @@ const personInfo = document.querySelector('.person')
 const infoCont = document.querySelector('.info-cont')
 const personBackBt = document.querySelector('.person-back-btn')
 const personContainer = document.querySelector('.person-info-cont')
-const logoutBt = document.querySelector('#person-logout')
+const logBt = document.querySelector('.log-bt')
 
 console.log(personInfo, 'personInfo')
 
@@ -31,6 +31,11 @@ let perId = parseInt(locParse.get("personId"))
 console.log(perId, 'perId')
 // personId = perId
 console.log(personId, 'personId')
+
+logBt.addEventListener('click', (e) => {
+    e.preventDefault()
+    window.location = `../daily-log/daily-log.html?personId=${perId}`
+})
 
 function addTasks(e){
     const tName = taskName.value
@@ -64,19 +69,15 @@ function addTasks(e){
 
 function displayTasks(tasks){
     taskList.innerHTML = tasks.map((task) => {
-        return task ? `
+        return `
             <div class="task-container" id="task${task.taskId}">
-                <a class="task-head" href="../timer-block/index.html?taskId=${task.taskId}" data-task-id="${task.taskId}">
+                <a class="task-head" href="../timer-block/index.html?personId=${perId}&taskId=${task.taskId}" data-task-id="${task.taskId}">
                     <h3>${task.tName}</h3><span>${task.tDesc}</span><span>${task.tTag}</span>
                 </a>
                 <div class="task-buttons">
                     <button class="button" id="edit-el" data-task-id="${task.taskId}"><i class="fas fa-pen"></i>Edit</button>
                     <button class="button" id="delete-el" data-task-id="${task.taskId}"><i class="fas fa-trash"></i>Delete</button>
                 </div>
-            </div>
-        ` : `
-            <div class="task-container">
-                <div><h3>Add Tasks</h3></div>
             </div>
         `
     }).join('')

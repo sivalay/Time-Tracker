@@ -12,6 +12,7 @@ const headContainer = document.querySelector('.task-details')
 const doneContainer = document.querySelector('#done-text')
 const totalTime = document.querySelector('.tot-time')
 const doneButton = document.querySelector('#btn-el')
+const homeBt = document.querySelector('.home-link')
 
 // let dates = JSON.parse(localStorage.getItem('dates')) || []
 let stickTime = 0
@@ -22,8 +23,9 @@ let resumeDiff
 const loc = window.location
 const locParse = new URL(loc).searchParams
 const locId = parseInt(locParse.get("taskId"))
-console.log(locParse)
-console.log(locId)
+const perId = parseInt(locParse.get("personId"))
+console.log(perId, 'perId')
+console.log(locId, 'locId')
 
 // function to get start Time
 function getStartTime(){
@@ -175,19 +177,6 @@ function getEndTime(){
         if (item.status === 'processing' || item.status == 'resume'){
             item.end = `${date}`
             item.status = 'done'
-
-            // if (resumeDiff == item.timeDiff){
-            //     item.timeLogs = [resumeDiff]
-            //     console.log("It's Eaqual")
-            // }else if((resumeDiff != item.timeDiff) && resumeDiff != 0){
-            //     item.timeLogs = [{
-            //         newTimeDiff : item.timeDiff,
-            //         endLog : item.start
-    
-            //     }]
-            //     console.log("It's not the same")
-            // }
-
             console.log(item.timeDiff)
 
             if(newTimeDiff != ''){
@@ -313,6 +302,12 @@ doneButton.addEventListener('click', () => {
     displayTotTime()
     taskitem.taskStatus = 'Done'
     SaveToStorage()
+})
+
+// Home Button
+homeBt.addEventListener('click', (e) => {
+    e.preventDefault()
+    window.location = `../task-block/index.html?personId=${perId}`
 })
 
 // dates.map((item) => {
