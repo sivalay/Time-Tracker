@@ -34,7 +34,7 @@ console.log(personId, 'personId')
 
 logBt.addEventListener('click', (e) => {
     e.preventDefault()
-    window.location = `../daily-log/daily-log.html?personId=${perId}`
+    window.location = `../daily-log/daily-log.html?personId=${perId }`
 })
 
 function addTasks(e){
@@ -56,6 +56,7 @@ function addTasks(e){
         tDesc,
         tTag,
         taskId : tId,
+        pId : perId,
         totalTime : '',
         taskStatus : '',
         timeLogs : []
@@ -68,20 +69,37 @@ function addTasks(e){
 }
 
 function displayTasks(tasks){
+    let taskHtml
     taskList.innerHTML = tasks.map((task) => {
-        return `
-            <div class="task-container" id="task${task.taskId}">
-                <a class="task-head" href="../timer-block/index.html?personId=${perId}&taskId=${task.taskId}" data-task-id="${task.taskId}">
-                    <h3>${task.tName}</h3><span>${task.tDesc}</span><span>${task.tTag}</span>
-                </a>
-                <div class="task-buttons">
-                    <button class="button" id="edit-el" data-task-id="${task.taskId}"><i class="fas fa-pen"></i>Edit</button>
-                    <button class="button" id="delete-el" data-task-id="${task.taskId}"><i class="fas fa-trash"></i>Delete</button>
+        if(task.pId == perId){
+            return `
+                <div class="task-container" id="task${task.taskId}">
+                    <a class="task-head" href="../timer-block/index.html?personId=${perId}&taskId=${task.taskId}" data-task-id="${task.taskId}">
+                        <h3>${task.tName}</h3><span>${task.tDesc}</span><span>${task.tTag}</span>
+                    </a>
+                    <div class="task-buttons">
+                        <button class="button" id="edit-el" data-task-id="${task.taskId}"><i class="fas fa-pen"></i>Edit</button>
+                        <button class="button" id="delete-el" data-task-id="${task.taskId}"><i class="fas fa-trash"></i>Delete</button>
+                    </div>
                 </div>
-            </div>
-        `
+            `
+        }
+        // return 
+        // `
+        //     <div class="task-container" id="task${task.taskId}">
+        //         <a class="task-head" href="../timer-block/index.html?personId=${perId}&taskId=${task.taskId}" data-task-id="${task.taskId}">
+        //             <h3>${task.tName}</h3><span>${task.tDesc}</span><span>${task.tTag}</span>
+        //         </a>
+        //         <div class="task-buttons">
+        //             <button class="button" id="edit-el" data-task-id="${task.taskId}"><i class="fas fa-pen"></i>Edit</button>
+        //             <button class="button" id="delete-el" data-task-id="${task.taskId}"><i class="fas fa-trash"></i>Delete</button>
+        //         </div>
+        //     </div>
+        // `
     }).join('')
+    // taskList.innerHTML = taskHtml
     console.log(taskList)
+    console.log(taskHtml, 'taskHtml')
 
     taskName.value = ''
     taskDesc.value = ''
@@ -188,7 +206,7 @@ function searchTasks(){
     allBt.classList.remove('item-info')
     console.log(searchValue)
     tasks.forEach((task) => {
-        if (task.tTag == searchValue){
+        if (task.tTag == searchValue && task.pId == perId){
             console.log(task)
             tsListHtml += `
             <div class="task-container" id="task${task.taskId}">

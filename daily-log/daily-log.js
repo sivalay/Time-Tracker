@@ -5,8 +5,6 @@ const dateContainer = document.querySelector('.dates-container')
 const dateHead = document.querySelector('.today-head')
 const taskHead = document.querySelector('.time-log')
 
-const display = document.querySelector('.output-log')
-const inputs = document.querySelector('#date-input')
 const doneBt = document.querySelector('#done-btn')
 
 const searchEl = document.querySelector('#search')
@@ -119,35 +117,39 @@ function displayTasks(now){
     taskHead.innerHTML = ''
     const currentDate = (new Date(now)).toLocaleDateString()
     tasks.map((task) => {    
-        console.log("task")
+        // console.log(task,"task")
         let diffSum = 0  
-        task.timeLogs.map((timeItem) => {
-            logDate = (new Date(`${timeItem.endLog}`)).toLocaleDateString()
-            // console.log(logDate, 'logDate')
-            if (currentDate === logDate){
-                
-                console.log(task.timeLogs, task.tName, 'here')
-                console.log(timeItem.newTimeDiff)
+        if(task.pId == perId){
+            console.log(task, 'matching task')
+        
+            task.timeLogs.map((timeItem) => {
+                logDate = (new Date(`${timeItem.endLog}`)).toLocaleDateString()
+                // console.log(logDate, 'logDate')
+                if (currentDate === logDate){
+                    
+                    console.log(task.timeLogs, task.tName, 'here')
+                    console.log(timeItem.newTimeDiff)
 
-                diffSum =diffSum + timeItem.newTimeDiff
+                    diffSum =diffSum + timeItem.newTimeDiff
+                }
+            })
+            // console.log(diffSum, 'diffSum')
+            if(diffSum != 0){
+                // diffSum = diffSum + timeItem.newTimeDiff
+                const timeDiff = (diffSum) / 1000
+                // console.log(timeDiff)
+                const hours = Math.floor(timeDiff / 3600 % 24)
+                const minss = (Math.floor(timeDiff / 60) % 60)
+                console.log(minss, 'minss')
+                const mins = Math.round((Math.floor(timeDiff / 60) % 60) / 10)
+                console.log(formatTime(mins), 'mins')
+                // const min = formatTime(mins)
+                // const seconds = (Math.floor(timeDiff) % 60) 
+                const timeDiffHtml = `${hours}.${formatTime(minss)}`
+                // console.log(timeDiffHtml)
+                timeArray.push(timeDiffHtml)
+                taskArray.push(task.tName)
             }
-        })
-        // console.log(diffSum, 'diffSum')
-        if(diffSum != 0){
-            // diffSum = diffSum + timeItem.newTimeDiff
-            const timeDiff = (diffSum) / 1000
-            // console.log(timeDiff)
-            const hours = Math.floor(timeDiff / 3600 % 24)
-            const minss = (Math.floor(timeDiff / 60) % 60)
-            console.log(minss, 'minss')
-            const mins = Math.round((Math.floor(timeDiff / 60) % 60) / 6)
-            console.log(formatTime(mins), 'mins')
-            // const min = formatTime(mins)
-            // const seconds = (Math.floor(timeDiff) % 60) 
-            const timeDiffHtml = `${hours}.${minss}`
-            // console.log(timeDiffHtml)
-            timeArray.push(timeDiffHtml)
-            taskArray.push(task.tName)
         }
         // diffSum = 0
         console.log(timeArray, 'timeArray')
