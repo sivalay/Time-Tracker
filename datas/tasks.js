@@ -17,3 +17,10 @@ export function addTask(task){
 export function SaveToStorage(){
     localStorage.setItem('tasks', JSON.stringify(tasks))
 }
+
+export function displayLocId(id){
+    const loc = window.location
+    const locParse = new URL(loc).searchParams
+    let perId = parseInt(locParse.get(`${id}`))
+    return perId
+}

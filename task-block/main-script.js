@@ -1,4 +1,4 @@
-import { tasks, addTask, SaveToStorage } from "../datas/tasks.js"
+import { tasks, addTask, SaveToStorage, displayLocId } from "../datas/tasks.js"
 import { dates, addTime, SaveTimes } from "../datas/times.js"
 import { people, personId } from "../datas/people.js"
 
@@ -23,14 +23,8 @@ const personBackBt = document.querySelector('.person-back-btn')
 const personContainer = document.querySelector('.person-info-cont')
 const logBt = document.querySelector('.log-bt')
 
-console.log(personInfo, 'personInfo')
-
-const loc = window.location
-const locParse = new URL(loc).searchParams
-let perId = parseInt(locParse.get("personId"))
-console.log(perId, 'perId')
-// personId = perId
-console.log(personId, 'personId')
+const perId = displayLocId('personId')
+// console.log(perId, 'perId')
 
 logBt.addEventListener('click', (e) => {
     e.preventDefault()
@@ -84,18 +78,6 @@ function displayTasks(tasks){
                 </div>
             `
         }
-        // return 
-        // `
-        //     <div class="task-container" id="task${task.taskId}">
-        //         <a class="task-head" href="../timer-block/index.html?personId=${perId}&taskId=${task.taskId}" data-task-id="${task.taskId}">
-        //             <h3>${task.tName}</h3><span>${task.tDesc}</span><span>${task.tTag}</span>
-        //         </a>
-        //         <div class="task-buttons">
-        //             <button class="button" id="edit-el" data-task-id="${task.taskId}"><i class="fas fa-pen"></i>Edit</button>
-        //             <button class="button" id="delete-el" data-task-id="${task.taskId}"><i class="fas fa-trash"></i>Delete</button>
-        //         </div>
-        //     </div>
-        // `
     }).join('')
     // taskList.innerHTML = taskHtml
     console.log(taskList)
@@ -173,7 +155,7 @@ editEl.forEach((item) => {
 // to add task
 addButton.addEventListener('click', (e) => {
     e.preventDefault()
-    console.log('hi')
+    // console.log('hi')
     addTasks()
 })
 

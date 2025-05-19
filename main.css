@@ -485,7 +485,6 @@ h1{
 /* ----------------Time-Log---------------- */
 
 .time-log{
-    /* height: 86px; */
     height: 66px;
 }
 
@@ -558,6 +557,98 @@ canvas{
     min-height: 300px;
 }
 
+/* --------grid-graph--------- */
+
+.grid-graph-container{
+    width: 100%;
+    display: block;
+    color: rgb(111, 114, 111);
+}
+
+.graph-top{
+    display: flex;
+}
+
+.div-container{
+    width: 100%;
+    height: auto;
+}
+
+.main-graph{
+    width: 100%;
+    min-height: 200px;
+    display: flex;
+    gap: 20px;
+    border-left: 2px solid rgb(183, 187, 183);
+    border-bottom: 2px solid rgb(183, 187, 183);
+    padding: 20px 10px 0;
+    overflow: hidden;
+    overflow-x: scroll;
+}
+
+.box{
+    display: flex;
+    flex-flow: column-reverse;
+}
+
+.box-col{
+    width: 50px;
+    height: 30px;
+}
+
+.side-heads{
+    display: flex;
+    align-items: flex-end;
+}
+
+.log-time-container{
+    display: flex;
+    flex-flow: column-reverse;
+    padding-top: 20px;
+    margin-bottom: -8px;
+}
+
+.time{
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: right;
+    margin-right: 4px;
+}
+
+.log-task-container{
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    padding: 10px 10px;
+}
+
+.down-heads{
+    margin-left: 34px;
+}
+
+.task{
+    width: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.bend{
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.red-back{
+    background-color: rgb(183, 187, 183);
+}
+
+.half-back{
+    background: linear-gradient(to top, rgb(183, 187, 183) 59%, rgba(0,0,0,0) 50%);
+}
+
+
 @media screen and (min-width: 768px) {
     .person svg{
         width: 25px;
@@ -618,7 +709,7 @@ canvas{
         padding: 40px;
     }
     .task-wrap{
-        max-height: 250px;
+        max-height: 280px;
     }
     .green-signal{
         left: 20px;
@@ -648,14 +739,15 @@ canvas{
     canvas{
         min-height: auto;
     }
-    .rounded-box{
+    /*  */
+    /* .rounded-box{
         display: block;
         position: relative;
         left: auto;
         right: auto;
         align-items: center;
         justify-content: center;
-    }
+    } */
 
 }
 
@@ -695,6 +787,18 @@ canvas{
     .content-wrap{
         padding: 0px 80px;
     }
+    .tasks-wrap{
+        max-width: 1440px;
+        margin: 0 auto;
+    }
+    .search-container{
+        max-width: 1440px;
+        margin: 40px auto 40px;
+    }
+    .main-task-wrap{
+        max-width: 1440px;
+        margin: 0 auto;
+    }
     .item-info-container form{
         padding: 40px 80px;
     }
@@ -706,6 +810,15 @@ canvas{
     }
     .time-log{
         min-width: 300px;
+    }
+    .head-content{
+        /* display: block; */
+        max-width: 1440px;
+        margin: 0 auto;
+    }
+    .main-content{
+        max-width: 1440px;
+        margin: 0 auto;
     }
     .graph-container{
         width: 100%;

@@ -1,6 +1,6 @@
 
 import { dates, addTime, SaveTimes } from "../datas/times.js"
-import { tasks, SaveToStorage } from "../datas/tasks.js"
+import { tasks, SaveToStorage, displayLocId } from "../datas/tasks.js"
 
 
 const resumeButton = document.querySelector('.rm-btn')
@@ -14,18 +14,13 @@ const totalTime = document.querySelector('.tot-time')
 const doneButton = document.querySelector('#btn-el')
 const homeBt = document.querySelector('.home-link')
 
-// let dates = JSON.parse(localStorage.getItem('dates')) || []
 let stickTime = 0
 let newTimeDiff = ''
 let resumeDiff
 
+const locId = displayLocId('taskId')
+const perId = displayLocId('personId')
 
-const loc = window.location
-const locParse = new URL(loc).searchParams
-const locId = parseInt(locParse.get("taskId"))
-const perId = parseInt(locParse.get("personId"))
-console.log(perId, 'perId')
-console.log(locId, 'locId')
 
 // function to get start Time
 function getStartTime(){
