@@ -144,9 +144,7 @@ function displayTasks(now){
                     maxHour = mh + 3
                     // console.log(maxHour, 'maxHour')
                 }
-                // diffSum = diffSum + timeItem.newTimeDiff
                 const timeDiff = (diffSum) / 1000
-                // console.log(timeDiff)
                 const hours = Math.floor(timeDiff / 3600 % 24)
                 const minss = (Math.floor(timeDiff / 60) % 60)
                 console.log(minss, 'minss')
@@ -154,10 +152,7 @@ function displayTasks(now){
                 console.log(mins, 'mins')
                 const inHrd = (minss / 60) * 100
                 console.log(inHrd, 'inHrd')
-                // const min = formatTime(mins)
-                // const seconds = (Math.floor(timeDiff) % 60) 
-                const timeDiffHtml = `${hours}.${formatTime(minss)}`
-                // console.log(timeDiffHtml)
+                const timeDiffHtml = `${hours}hr:${formatTime(minss)}mins`
                 const timesEl = {
                     hour : hours,
                     mins : inHrd
@@ -171,7 +166,6 @@ function displayTasks(now){
         // console.log(taskArray, 'taskArray')
 
     })
-    // console.log(taskArray.length, 'length')
     if(taskArray.length === 0){
         taskHead.innerHTML = `
             <div class="task-container">
@@ -252,6 +246,7 @@ function displayGraph(){
     graphView()
     displayGrid()
     colorGrid()
+    getCurrentTask()
 }
 displayGraph()
 
@@ -265,6 +260,10 @@ function graphView(){
                 </ul>
             </div>
             <div class="div-container">
+                <div class="task-info item-info">
+                    <h5 id="graph-head">TaskName</h5>
+                    <h5 id="graph-time">10hr : 11min</h5>
+                </div>
                 <div class="main-graph" id="graph-cont">
                    
                 </div>
@@ -303,12 +302,11 @@ function displayGrid(){
     taskCont.innerHTML = taskHtml
     graphCont.innerHTML = taskContHtml
     const taskContainer = document.querySelectorAll('.box')
-    // console.log(gridTimeArray, 'gridTimeArray')
     taskContainer.forEach((taskc) => {
         const taskId = taskc.dataset.taskId
         let gridElHtml = ''
         for (let i=1; i<=maxHour; i++){
-            gridElHtml += `<li class="box-col box${taskId}" id="col${i}" data-box-id="${i}"></li>`
+            gridElHtml += `<li class="box-col box${taskId}" id="${i}" data-box-id="${i}"></li>`
         }
         taskc.innerHTML = gridElHtml
     })
@@ -317,7 +315,6 @@ function displayGrid(){
 // to color grid
 function colorGrid(){
     gridTimeArray.forEach((gridTime,id) => {
-        console.log(gridTime,id)
         const grids = document.querySelectorAll(`.box${id}`)
         grids.forEach((gridItem) => {
             const gridId = Number(gridItem.dataset.boxId)
@@ -332,4 +329,32 @@ function colorGrid(){
         })
     })
 }
-console.log(gridTimeArray, 'gridTimeArray')
+
+// function to display task info in graph
+function getCurrentTask(){
+    const tasksCont = document.querySelectorAll('.box')
+    tasksCont.forEach((tasks) => {
+        const contEl = document.querySelector('.task-info')
+        tasks.addEventListener('click', () => {
+            const eventId = tasks.dataset.taskId
+            contEl.classList.remove('item-info')
+            displayCurrentTask(eventId)
+            let setTime = setInterval(() => {
+                contEl.classList.add('item-info')
+            }, 4000)
+            let timeOut = setTimeout(() => {
+                clearInterval(setTime)
+            }, 4000)
+        })
+    })
+}
+
+function displayCurrentTask(eventId){
+    const taskHead = document.getElementById('graph-head')
+    const taskTime = document.getElementById('graph-time')
+    const task = taskArray[eventId]
+    const time = timeArray[eventId]
+    taskHead.innerHTML = task
+    taskTime.innerHTML = time
+}
+

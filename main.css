@@ -251,7 +251,7 @@ h3{
 
 .tasks-wrap, .task-wrap{
     width: 100%;
-    max-height: 540px;
+    max-height: 640px;
     overflow: hidden;
     overflow-y: scroll;
     display: flex;
@@ -307,10 +307,6 @@ h3{
     bottom: 0px;
     position: fixed;
     border: 5px solid rgb(236, 250, 236);
-}
-
-.item-info{
-    display: none;
 }
 
 .item-info-container nav{
@@ -563,11 +559,12 @@ canvas{
     width: 100%;
     display: block;
     color: rgb(111, 114, 111);
-    margin-top: 50px;
+    margin-top: 40px;
 }
 
 .graph-top{
     display: flex;
+    position: relative;
 }
 
 .div-container{
@@ -580,7 +577,7 @@ canvas{
     width: 100%;
     min-height: 200px;
     display: flex;
-    gap: 20px;
+    gap: 10px;
     border-left: 2px solid rgb(183, 187, 183);
     border-bottom: 2px solid rgb(183, 187, 183);
     padding: 20px 10px 0;
@@ -594,7 +591,7 @@ canvas{
 }
 
 .box-col{
-    width: 60px;
+    width: 40px;
     height: 60px;
 }
 
@@ -622,7 +619,7 @@ canvas{
 .log-task-container{
     display: flex;
     flex-wrap: nowrap;
-    gap: 20px;
+    gap: 10px;
     padding: 10px 10px 10px 12px;
 }
 
@@ -631,7 +628,7 @@ canvas{
 }
 
 .task{
-    width: 60px;
+    width: 40px;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
@@ -648,6 +645,32 @@ canvas{
 
 .half-back{
     background: linear-gradient(to top, rgb(183, 187, 183) 59%, rgba(0,0,0,0) 50%);
+}
+
+.canvas-place{
+    display: none;
+}
+
+.task-info{
+    left: 45px;
+    width: fit-content;
+    height: 60px;
+    display: flex;
+    position: absolute;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    color: rgb(245, 243, 232);
+    background-color: rgb(183, 187, 183);
+    border-radius: 5px;
+    padding: 10px;
+}
+.task-info h5{
+    margin: 0px;
+}
+
+.item-info{
+    display: none;
 }
 
 @media screen and (min-width: 768px) {
@@ -736,6 +759,21 @@ canvas{
     }
     canvas{
         min-height: auto;
+    }
+    /* .task-info{
+        left: 85px;
+    } */
+    .log-task-container{
+        gap: 20px;
+    }
+    .main-graph{
+    gap: 20px;
+    }
+    .box-col{
+        width: 60px;
+    }
+    .task{
+    width: 60px;
     }
 
 }
