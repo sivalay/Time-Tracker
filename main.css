@@ -563,6 +563,7 @@ canvas{
     width: 100%;
     display: block;
     color: rgb(111, 114, 111);
+    margin-top: 50px;
 }
 
 .graph-top{
@@ -572,6 +573,7 @@ canvas{
 .div-container{
     width: 100%;
     height: auto;
+    display: flex;
 }
 
 .main-graph{
@@ -582,8 +584,8 @@ canvas{
     border-left: 2px solid rgb(183, 187, 183);
     border-bottom: 2px solid rgb(183, 187, 183);
     padding: 20px 10px 0;
-    overflow: hidden;
-    overflow-x: scroll;
+    /* overflow: hidden;
+    overflow-x: scroll; */
 }
 
 .box{
@@ -592,8 +594,8 @@ canvas{
 }
 
 .box-col{
-    width: 50px;
-    height: 30px;
+    width: 60px;
+    height: 60px;
 }
 
 .side-heads{
@@ -610,7 +612,7 @@ canvas{
 
 .time{
     width: 30px;
-    height: 30px;
+    height: 60px;
     display: flex;
     align-items: flex-end;
     justify-content: right;
@@ -621,7 +623,7 @@ canvas{
     display: flex;
     flex-wrap: nowrap;
     gap: 20px;
-    padding: 10px 10px;
+    padding: 10px 10px 10px 12px;
 }
 
 .down-heads{
@@ -629,7 +631,7 @@ canvas{
 }
 
 .task{
-    width: 50px;
+    width: 60px;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
@@ -647,7 +649,6 @@ canvas{
 .half-back{
     background: linear-gradient(to top, rgb(183, 187, 183) 59%, rgba(0,0,0,0) 50%);
 }
-
 
 @media screen and (min-width: 768px) {
     .person svg{
@@ -716,9 +717,6 @@ canvas{
         top: 38px;
         right: auto;
     }
-
-    /*   time-log   */
-
     .time-wrap{
         padding-top: 0;
         padding-bottom: 0;
@@ -739,15 +737,6 @@ canvas{
     canvas{
         min-height: auto;
     }
-    /*  */
-    /* .rounded-box{
-        display: block;
-        position: relative;
-        left: auto;
-        right: auto;
-        align-items: center;
-        justify-content: center;
-    } */
 
 }
 

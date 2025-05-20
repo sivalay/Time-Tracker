@@ -22,23 +22,23 @@ homeBt.addEventListener('click', (e) => {
 
 const today = new Date()
 let weekDates = []
+let gridTimeArray = []
 let taskArray = []
 let timeArray = []
-const rufTime = [6, 2]
-const rufTask = ['alksdj', 'lkjdoi']
-const backColor = ['red', 'green']
 const now = new Date()
+let maxHour = 0
 
 
-function displayEl(){
+function displayEl(today){
     getWeek(today)
     displayDates()
 }
-displayEl()
+displayEl(today)
 
 // to get the whole week
 function getWeek(day){
     const startDate = day
+    weekDates = []
     startDate.setDate(startDate.getDate() - startDate.getDay())
     // console.log(startDate)
 
@@ -58,14 +58,16 @@ console.log(weekDates, "weekDates")
 
 // function to display Dates
 function displayDates(){
+    let dateHtml = ''
     weekDates.map((dateItem) => {
         // console.log(dateItem.date)
         const dateString = (new Date(dateItem.date)).toLocaleDateString()
 
-        dateContainer.innerHTML += `
+        dateHtml += `
             <div class="date" data-date-id="${dateItem.id}">${dateString}</div>
         `
     })
+    dateContainer.innerHTML = dateHtml
 }
 
 // to get date
@@ -87,6 +89,7 @@ dateEl.forEach((dateItem) => {
         dateHead.innerHTML = matchDate
         taskArray = []
         timeArray = []
+        gridTimeArray = []
         displayTasks(matchItem.date)
         
     })
@@ -103,7 +106,10 @@ searchBt.addEventListener('click', (e) => {
     dateHead.innerHTML = matchDate
     taskArray = []
     timeArray = []
+    gridTimeArray = []
     displayTasks(newDate)
+    displayEl(newDate)
+    displayGraph()
     searchEl.value = ''
 })
 
@@ -116,6 +122,7 @@ function displayTasks(now){
     tasks.map((task) => {    
         // console.log(task,"task")
         let diffSum = 0 
+        let maxHourVar = 0
         if(task.pId == perId){
             // console.log(task, 'matching task')
         
@@ -130,6 +137,13 @@ function displayTasks(now){
             })
             // console.log(diffSum, 'diffSum')
             if(diffSum != 0){
+                if (diffSum > maxHourVar){
+                    maxHourVar = diffSum
+                    const mm = maxHour / 1000
+                    const mh = Math.floor(mm / 3600 % 24)
+                    maxHour = mh + 3
+                    // console.log(maxHour, 'maxHour')
+                }
                 // diffSum = diffSum + timeItem.newTimeDiff
                 const timeDiff = (diffSum) / 1000
                 // console.log(timeDiff)
@@ -138,21 +152,26 @@ function displayTasks(now){
                 console.log(minss, 'minss')
                 const mins = Math.round((Math.floor(timeDiff / 60) % 60) / 10)
                 console.log(mins, 'mins')
-                const inHrd = (60 / 60) * 100
+                const inHrd = (minss / 60) * 100
                 console.log(inHrd, 'inHrd')
                 // const min = formatTime(mins)
                 // const seconds = (Math.floor(timeDiff) % 60) 
                 const timeDiffHtml = `${hours}.${formatTime(minss)}`
                 // console.log(timeDiffHtml)
+                const timesEl = {
+                    hour : hours,
+                    mins : inHrd
+                }
                 timeArray.push(timeDiffHtml)
+                gridTimeArray.push(timesEl)
                 taskArray.push(task.tName)
             }
         }
-        console.log(timeArray, 'timeArray')
-        console.log(taskArray, 'taskArray')
+        // console.log(timeArray, 'timeArray')
+        // console.log(taskArray, 'taskArray')
 
     })
-    console.log(taskArray.length, 'length')
+    // console.log(taskArray.length, 'length')
     if(taskArray.length === 0){
         taskHead.innerHTML = `
             <div class="task-container">
@@ -169,6 +188,7 @@ function displayTasks(now){
         `
     })
     displayChart()
+    displayGraph()
 }
 displayTasks(now)
 function formatTime(time){
@@ -228,54 +248,88 @@ function displayChart(){
 }
 displayChart()
 
+function displayGraph(){
+    graphView()
+    displayGrid()
+    colorGrid()
+}
+displayGraph()
+
 // graph-grid
 function graphView(){
     graphGrid.innerHTML = `
         <div class="graph-top">
             <div class="side-heads">
-                <ul class="log-time-container">
+                <ul class="log-time-container" id="log-time">
                     
                 </ul>
             </div>
             <div class="div-container">
-                <div class="main-graph">
-                    <ul class="box">
-                        <li class="box-col red-back"></li>
-                        <li class="box-col red-back bend"></li>
-                    </ul>
-                    <ul class="box">
-                        <li class="box-col half-back bend"></li>
-                        <li class="box-col"></li>
-                    </ul>
+                <div class="main-graph" id="graph-cont">
+                   
                 </div>
             </div>
         </div>
         <div class="down-heads">
-            <ul class="log-task-container">
-                <li class="task" id="task1">task1</li>
-                <li class="task" id="task2">task2</li>
+            <ul class="log-task-container" id="log-task">
+                
             </ul>
         </div>
     `
 }
 
-graphView()
+// graphView()
 
-// function drawGraph(){
-
-// }
-
-// if (diffSum > maxHour){
-//     console.log('its greater')
-//     maxHour = diffSum
-// }
-// displaying grid-taskName
-// taskArray.forEach((task) => {
-//     console.log(task, 'task')
-//     taskDown.innerHTML += `<li class="task" id="task1">${task}</li>`
-// })
 // displaying grid-time
-// console.log(timeArray, 'timeArray')
-// timeArray.forEach((time) => {
+function displayGrid(){
+    const timeCont = document.getElementById('log-time')
+    let timeHtml = ''
+    for (let i=0; i<=maxHour; i++){
+        timeHtml += `
+            <li class="time">${i}hr</li>
+        `
+    }
+    timeCont.innerHTML = timeHtml
+    const taskCont = document.getElementById('log-task')
+    const graphCont = document.getElementById('graph-cont')
+    let taskHtml = ''
+    let taskContHtml = ''
+    taskArray.forEach((task, id) => {
+        taskHtml += `
+            <li class="task" id="task${id}">${task}</li>
+        `
+        taskContHtml += `<ul class="box" data-task-id="${id}"></ul>`
+    })
+    taskCont.innerHTML = taskHtml
+    graphCont.innerHTML = taskContHtml
+    const taskContainer = document.querySelectorAll('.box')
+    // console.log(gridTimeArray, 'gridTimeArray')
+    taskContainer.forEach((taskc) => {
+        const taskId = taskc.dataset.taskId
+        let gridElHtml = ''
+        for (let i=1; i<=maxHour; i++){
+            gridElHtml += `<li class="box-col box${taskId}" id="col${i}" data-box-id="${i}"></li>`
+        }
+        taskc.innerHTML = gridElHtml
+    })
+}
 
-// })
+// to color grid
+function colorGrid(){
+    gridTimeArray.forEach((gridTime,id) => {
+        console.log(gridTime,id)
+        const grids = document.querySelectorAll(`.box${id}`)
+        grids.forEach((gridItem) => {
+            const gridId = Number(gridItem.dataset.boxId)
+            const hr = Number(gridTimeArray[id].hour)
+            if (gridId <= hr){
+                gridItem.classList.add('red-back')
+            }
+            if(gridId == (hr+1)){
+                const min = gridTimeArray[id].mins
+                gridItem.style.background = `linear-gradient(to top, rgb(183, 187, 183) ${min}%, rgba(0,0,0,0) ${min}%)`
+            }
+        })
+    })
+}
+console.log(gridTimeArray, 'gridTimeArray')
