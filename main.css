@@ -75,19 +75,6 @@ body{
     width: 90px;
 }
 
-.underlines{
-    text-decoration: 2px underline red;
-    text-underline-offset: 10px;
-}
-
-.disabled{
-    color: rgb(127, 133, 127);
-}
-
-.error{
-    color: red;
-}
-
 /* main index */
 .main-wrap{
     width: 100%;
@@ -557,6 +544,7 @@ canvas{
 
 .grid-graph-container{
     width: 100%;
+    /* min-height: 340px; */
     display: block;
     color: rgb(111, 114, 111);
     margin-top: 40px;
@@ -577,21 +565,19 @@ canvas{
     width: 100%;
     min-height: 200px;
     display: flex;
-    gap: 10px;
+    gap: 5px;
     border-left: 2px solid rgb(183, 187, 183);
     border-bottom: 2px solid rgb(183, 187, 183);
     padding: 20px 10px 0;
-    /* overflow: hidden;
-    overflow-x: scroll; */
 }
 
-.box{
+.box, .weekbox{
     display: flex;
     flex-flow: column-reverse;
 }
 
-.box-col{
-    width: 40px;
+.box-col, .wbox-col{
+    width: 32px;
     height: 60px;
 }
 
@@ -619,8 +605,8 @@ canvas{
 .log-task-container{
     display: flex;
     flex-wrap: nowrap;
-    gap: 10px;
-    padding: 10px 10px 10px 12px;
+    gap: 5px;
+    padding: 10px 0px 10px 12px;
 }
 
 .down-heads{
@@ -628,7 +614,8 @@ canvas{
 }
 
 .task{
-    width: 40px;
+    height: 50px;
+    width: 32px;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
@@ -641,10 +628,6 @@ canvas{
 
 .red-back{
     background-color: rgb(183, 187, 183);
-}
-
-.half-back{
-    background: linear-gradient(to top, rgb(183, 187, 183) 59%, rgba(0,0,0,0) 50%);
 }
 
 .canvas-place{
@@ -669,8 +652,31 @@ canvas{
     margin: 0px;
 }
 
+.graph-head{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+}
+.graph-head li{
+    cursor: pointer;
+}
+
 .item-info{
     display: none;
+}
+
+.underlines{
+    text-decoration: 2px underline red;
+    text-underline-offset: 10px;
+}
+
+.disabled{
+    color: rgb(127, 133, 127);
+}
+
+.error{
+    color: red;
 }
 
 @media screen and (min-width: 768px) {
@@ -769,7 +775,7 @@ canvas{
     .main-graph{
     gap: 20px;
     }
-    .box-col{
+    .box-col, .wbox-col{
         width: 60px;
     }
     .task{

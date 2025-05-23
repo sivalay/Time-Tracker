@@ -21,7 +21,6 @@ let resumeDiff
 const locId = displayLocId('taskId')
 const perId = displayLocId('personId')
 
-
 // function to get start Time
 function getStartTime(){
     const date = new Date()
