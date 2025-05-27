@@ -66,14 +66,14 @@ function displayDates(){
 // to get date
 function getDateEl(){
     const dateEl = document.querySelectorAll('.date')
-    console.log(dateEl, 'dateEl')
+    // console.log(dateEl, 'dateEl')
     
     dateEl.forEach((dateItem) => {
         dateItem.addEventListener('click', () => {
             const dateId = dateItem.dataset.dateId
-            console.log(dateId, 'Here is the Id')
+            // console.log(dateId, 'Here is the Id')
             let matchItem
-            console.log(weekDates, 'weekdates from dateEl')
+            // console.log(weekDates, 'weekdates from dateEl')
             weekDates.map((weekDate) => {
                 if (weekDate.id == dateId){
                     matchItem = weekDate
@@ -111,24 +111,22 @@ searchBt.addEventListener('click', (e) => {
     displayTasks(newDate)
     displayEl(newDate)
     getDateEl()
-    // displayGraph()
     searchEl.value = ''
 })
 
 // display of tasks and times for the day
 function displayTasks(now){
-    let logDate
+    // let logDate
     let maxWeekHour = 0
     let maxHourVar = 0
     taskHead.innerHTML = ''
     const currentDate = (new Date(now)).toLocaleDateString()
     tasks.map((task) => {    
         let diffSum = 0 
-        
-        let weekDiff = 0
+        // let weekDiff = 0
         if(task.pId == perId){
             task.timeLogs.map((timeItem) => {
-                logDate = (new Date(`${timeItem.endLog}`)).toLocaleDateString()
+                let logDate = (new Date(`${timeItem.endLog}`)).toLocaleDateString()
                 if (currentDate === logDate){
                     diffSum =diffSum + timeItem.newTimeDiff
                 }
@@ -143,14 +141,16 @@ function displayTasks(now){
                 }
                 const timeDiff = (diffSum) / 1000
                 const hours = Math.floor(timeDiff / 3600 % 24)
-                const minss = (Math.floor(timeDiff / 60) % 60)
-                // console.log(minss, 'minss')
+                const minss = Math.floor(timeDiff / 60) % 60
+                console.log(minss, 'minss')
+                console.log(hours, 'hours')
                 const inHrd = (minss / 60) * 100
                 // console.log(inHrd, 'inHrd')
                 const timeDiffHtml = `${hours}hr:${formatTime(minss)}mins`
                 const timesEl = {
                     hour : hours,
-                    min : inHrd
+                    min : inHrd,
+                    dayTime : timeDiffHtml
                 }
                 timeArray.push(timeDiffHtml)
                 gridTimeArray.push(timesEl)
@@ -292,7 +292,7 @@ function displayGrid(){
     const graphCont = document.getElementById('graph-cont')
     let taskHtml = ''
     let taskContHtml = ''
-    console.log(taskArray, 'taskArray')
+    // console.log(taskArray, 'taskArray')
     taskArray.forEach((task, id) => {
         taskHtml += `
             <li class="task" id="task${id}">${task}</li>
@@ -313,7 +313,7 @@ function displayGrid(){
     // weekly graph
     const weeksEl = document.getElementById('log-week')
     let weeks = ''
-    console.log(weekDates, 'weekDates')
+    // console.log(weekDates, 'weekDates')
     weekDates.forEach((week) => {
         const weekId = week.id
         weeks += `<li class="task">${weekDays[weekId]}</li>`        
@@ -346,8 +346,10 @@ function displayGrid(){
 
 // to color grid
 function colorGrid(){
+    console.log(gridTimeArray, 'gridTimeArray')
     gridTimeArray.forEach((gridTime,id) => {
         const grids = document.querySelectorAll(`.box${id}`)
+        console.log(grids, 'grids')
         colorGridEl(grids,gridTime)
     })
     weekTimeArray.forEach((weekDay) => {
@@ -357,6 +359,7 @@ function colorGrid(){
 }
 function colorGridEl(grids,gridEl){
     grids.forEach((gridItem) => {
+        console.log(gridItem, 'gridItem')
         const gridId = Number(gridItem.dataset.boxId)
         const hr = Number(gridEl.hour)
         if (gridId <= hr){
@@ -421,3 +424,84 @@ function displayCurrentWeek(eventId){
     }, 4000)
 }
 
+function dayWeekDisplay(){
+    const dayBt = document.querySelector('#day')
+    const weekBt = document.querySelector('#week')
+    const weekCont = document.getElementById('week-container')
+    const dayCont = document.getElementById('day-container')
+    dayBt.addEventListener('click', () => {
+        weekCont.classList.add('item-info')
+        dayCont.classList.remove('item-info')
+        weekBt.classList.remove('underlines')
+        dayBt.classList.add('underlines')
+        weekBt.classList.add('disabled')
+        dayBt.classList.remove('disabled')
+    })
+    weekBt.addEventListener('click', () => {
+        weekCont.classList.remove('item-info')
+        dayCont.classList.add('item-info')
+        weekBt.classList.add('underlines')
+        dayBt.classList.remove('underlines')
+        weekBt.classList.remove('disabled')
+        dayBt.classList.add('disabled')
+    })
+}
+dayWeekDisplay()
+
+
+
+// Chart.JS workouts
+
+// // function to transform time
+// // function formatTime(time){
+// //     return time == '0' ? 1 : time
+// // }
+
+// // displaying Chart.js
+// function displayChart(){
+
+//     new Chart("mychart", {
+//         type : "bar",
+//         data : {
+//             labels : taskArray.map(task => task),
+//             datasets : [{
+//                 backgroundColor : 'rgb(166, 173, 166)',
+//                 data : timeArray
+//             }]
+//         },
+//         options : {
+//             legend : {display: false},
+//             scales : {
+//                 yAxes : [{
+//                     // min : 0,
+//                     // max : 8,
+//                     ticks : {
+//                         beginAtZero : true,
+//                         type : 'time',
+//                         time : {
+//                             unit : 'hour',
+//                             tooltipFormat : 'HH:mm:ss'
+//                         },
+                        
+//                         stepSize : .01
+//                         // callback : function (value){
+//                         //     return value.toFixed(2)
+//                         // }
+//                         // callback : function (value){
+//                         //     value.map((item) => {
+//                         //         return item.toFixed(1)
+//                         //     })
+//                         // }
+//                     }
+//                 }]
+//             },
+//             // barThickness : 20,
+//             // categoryPercentage: 0.7,
+//             title : {
+//                 display : false,
+//                 text : "Time Log"
+//             }
+//         }
+//     })
+// }
+// displayChart()

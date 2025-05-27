@@ -1,15 +1,13 @@
-
 import { dates, addTime, SaveTimes } from "../datas/times.js"
 import { tasks, SaveToStorage, displayLocId } from "../datas/tasks.js"
-
 
 const resumeButton = document.querySelector('.rm-btn')
 const backButton = document.querySelector('.back-btn-timer')
 const startButton = document.querySelector('.st-btn')
 const stopButton = document.querySelector('.ed-btn')
 const timeContainer = document.querySelector('.time-wrap')
+const timeHeadContainer = document.querySelector('.by-default-text')
 const headContainer = document.querySelector('.task-details')
-const doneContainer = document.querySelector('#done-text')
 const totalTime = document.querySelector('.tot-time')
 const doneButton = document.querySelector('#btn-el')
 const homeBt = document.querySelector('.home-link')
@@ -46,22 +44,9 @@ let taskitem
 tasks.map((task) => {
     if (task.taskId == locId){
         taskitem = task
+        console.log(task, 'task')
     }
 })
-
-// function to renderTimeHead
-function displayHead(){
-    headContainer.innerHTML = `
-        <h1 class="task-des-head">${taskitem.tName}</h1>
-        <h3 class="task-des-subhead">${taskitem.tDesc}</h3>
-        <h4 class="task-des-tag">${taskitem.tTag}</h4>
-    `
-    if (taskitem.taskStatus == 'Done'){
-        doneContainer.innerHTML = "Task Done"
-    }
-}
-displayHead()
-
 
 // function to renderTimeSum
 function displayTotalTime(){
@@ -75,20 +60,25 @@ function displayTotalTime(){
 
 displayTotalTime()
 
+// function to renderTimeHead
+function displayHead(){
+    headContainer.innerHTML = `
+        <h1 class="task-des-head">${taskitem.tName}</h1>
+        <h3 class="task-des-subhead">${taskitem.tDesc}</h3>
+        <h4 class="task-des-tag">${taskitem.tTag}</h4>
+    `
+}
+displayHead()
+
 // function to renderTimeLIst
-let timeHtmlEl 
-
 function displayTime(dates){
-    timeHtmlEl = ''
-
+    let timeHtmlEl = ''
     let matchItem
     dates.map((date, id) => {
         if(date.taskId == locId){
             matchItem = date
-            
             let endTime
             matchItem.id = id
-
             const startTime = getTimeString(matchItem.start)
 
             if (matchItem.end != ''){
@@ -119,14 +109,34 @@ function displayTime(dates){
 
         timeContainer.innerHTML =  timeHtmlEl
     })  
+    console.log(timeHeadContainer, 'timeHeadContainer')
+    timeHeadContainer.innerHTML = `
+        <li class="li start-text text${locId}" id="text${locId}">
+            <div class="li-cont" id="done-text">Start a New Move</div>
+        </li>
+    `
+    const doneContainer = document.querySelector(`.text${locId}`)
+    console.log(doneContainer, 'done')
+    if (taskitem.taskStatus == 'Done'){
+        doneContainer.innerHTML = "Task Done"
+    }
+    // console.log((taskitem.taskStatus), 'status')
+    // dates.map((date, id) => {
+    //     if (date.status == 'processing' || taskitem.taskStatus == 'resume'){
+    //         console.log("its processing")
+    //         doneContainer.innerHTML = "Task Processing"
+    //     }
+    // })
+    // if (taskitem.taskStatus == 'processing' || taskitem.taskStatus == 'resume'){
+    //     console.log('it is')
+    //     doneContainer.innerHTML = "Task Processing"
+    // }
 }
-
 displayTime(dates)
 
 // function to get runTime
 function getRunTime(){
-    const result = dates.map((dateItem, id) => {
-        
+    const result = dates.map((dateItem) => {
         if (dateItem.status === 'processing'){
             displayTime(dates)
             const resultEl = document.querySelector('#result')
@@ -135,11 +145,19 @@ function getRunTime(){
             dateItem.timeDiff = currentTime - time
             console.log(dateItem.timeDiff, 'timeDiff')
             SaveTimes(dates)
-
         }
     }).join('')
     return result
 }
+
+dates.map((dateItem) => {
+    if(dateItem.status === 'processing'){
+        setInterval(getRunTime, 1000)
+    }
+    if(dateItem.status === 'resume'){
+        setInterval(resumeTimer, 1000)
+    }
+})
 
 // function to transform time
 function formatTime(time){
@@ -155,7 +173,6 @@ function getTimeString(dateItem){
     return endTimeHtml
 }
 
-
 startButton.addEventListener('click', () => {
     if (taskitem.taskStatus == ''){
         getStartTime()
@@ -166,7 +183,7 @@ startButton.addEventListener('click', () => {
 // function to get End Time
 function getEndTime(){
     const date = new Date()
-    console.log('hi')
+    // console.log('hi')
     const r = dates.map((item, id) => {
         if (item.status === 'processing' || item.status == 'resume'){
             item.end = `${date}`
@@ -182,11 +199,11 @@ function getEndTime(){
                 newTimeDiff : item.timeDiff,
                 endLog : date
             }
-            console.log(timeLog, 'timeLog')
-            console.log("Here is the time Diff n Date")
+            // console.log(timeLog, 'timeLog')
+            // console.log("Here is the time Diff n Date")
             taskitem.timeLogs.push(timeLog)
-            console.log(taskitem.timeLogs)
-            console.log(dates, 'after-end')
+            // console.log(taskitem.timeLogs)
+            // console.log(dates, 'after-end')
             SaveToStorage()
             SaveTimes(dates)
         }
@@ -235,7 +252,6 @@ timeCont.forEach((item) => {
 function resumeTimer(){
     dates.map((date) => {
         if (date.status == 'resume'){
-            // const timeStart = resumeStartTime
             const timeNow = new Date()
             newTimeDiff = timeNow - resumeStartTime
             resumeDiff = newTimeDiff
@@ -276,9 +292,6 @@ function backResume(){
 
 backButton.addEventListener('click', backResume)
 
-
-// function to get the total time
-
 // function to get totalTime
 function displayTotTime(){
     
@@ -304,28 +317,30 @@ homeBt.addEventListener('click', (e) => {
     window.location = `../task-block/index.html?personId=${perId}`
 })
 
-// dates.map((item) => {
-//     if (item.taskId == 4){
-//         console.log(item)
-//         const itemNow = (item.timeLogs)
-//         console.log(itemNow)
-//         let k
-//         let k1
-//         itemNow.map((logItem) => {
-//             k = new Date(logItem.endLog)
-//             k1 = logItem.newTimeDiff
-//             console.log(k)
-//             console.log(k1)
-//         })
-//         // const nowString = new Date(itemNow)
-//         // console.log(nowString, 'nowString')
-//         const timeDiff = (k1) / 1000
-//         const hours = Math.floor(timeDiff / 3600 % 24)
-//         const mins = Math.floor(timeDiff / 60) % 60
-//         const seconds = (Math.floor(timeDiff) % 60 ) + 1
-//         console.log(`${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`)
-//         // const itemDate = nowString.getDate()
-//         // console.log(itemDate)
-//     }
-// })
+function rufFun(){
+    dates.map((item) => {
+        if (item.taskId == 4){
+            console.log(item)
+            const itemNow = (item.timeLogs)
+            console.log(itemNow)
+            let k
+            let k1
+            itemNow.map((logItem) => {
+                k = new Date(logItem.endLog)
+                k1 = logItem.newTimeDiff
+                console.log(k)
+                console.log(k1)
+            })
+            // const nowString = new Date(itemNow)
+            // console.log(nowString, 'nowString')
+            const timeDiff = (k1) / 1000
+            const hours = Math.floor(timeDiff / 3600 % 24)
+            const mins = Math.floor(timeDiff / 60) % 60
+            const seconds = (Math.floor(timeDiff) % 60 ) + 1
+            console.log(`${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`)
+            // const itemDate = nowString.getDate()
+            // console.log(itemDate)
+        }
+    })
+}
 
