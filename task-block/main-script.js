@@ -1,6 +1,6 @@
 import { tasks, addTask, SaveToStorage, displayLocId } from "../datas/tasks.js"
-import { dates, addTime, SaveTimes } from "../datas/times.js"
-import { people, personId } from "../datas/people.js"
+import { dates, SaveTimes } from "../datas/times.js"
+import { people} from "../datas/people.js"
 
 
 const addEl = document.querySelector('#add-el')
@@ -22,9 +22,9 @@ const infoCont = document.querySelector('.info-cont')
 const personBackBt = document.querySelector('.person-back-btn')
 const personContainer = document.querySelector('.person-info-cont')
 const logBt = document.querySelector('.log-bt')
+const allBt = document.querySelector('.all-btn')
 
 const perId = displayLocId('personId')
-// console.log(perId, 'perId')
 
 logBt.addEventListener('click', (e) => {
     e.preventDefault()
@@ -43,8 +43,6 @@ function addTasks(e){
     if (tasks.length != 0){
         tId = tasks.at(-1).taskId + 1
     }
-    console.log(tId, 'tId')
-
     const task = {
         tName,
         tDesc,
@@ -56,20 +54,18 @@ function addTasks(e){
         timeLogs : []
     }
     addTask(task)
-    // localStorage.setItem('tasks', JSON.stringify(tasks))
     SaveToStorage()
     displayTasks(tasks)
-
 }
 
 function displayTasks(tasks){
-    let taskHtml
-    taskList.innerHTML = tasks.map((task) => {
+    let taskHtml = ''
+    taskHtml += tasks.map((task) => {
         if(task.pId == perId){
             return `
                 <div class="task-container" id="task${task.taskId}">
                     <a class="task-head" href="../timer-block/index.html?personId=${perId}&taskId=${task.taskId}" data-task-id="${task.taskId}">
-                        <h3>${task.tName}</h3><span>${task.tDesc}</span><span>${task.tTag}</span>
+                        <h3>${task.tName}</h3><span>${task.tDesc}</span><span>${task.tTag}</span><span class="task-stat" id="task-stat">${task.taskStatus == 'Done' ? 'Completed' : 'In Progress'}</span>
                     </a>
                     <div class="task-buttons">
                         <button class="button" id="edit-el" data-task-id="${task.taskId}"><i class="fas fa-pen"></i>Edit</button>
@@ -79,77 +75,70 @@ function displayTasks(tasks){
             `
         }
     }).join('')
-    // taskList.innerHTML = taskHtml
-    console.log(taskList)
-    console.log(taskHtml, 'taskHtml')
-
+    taskList.innerHTML = taskHtml
     taskName.value = ''
     taskDesc.value = ''
     taskTag.value = ''
-
 }
 displayTasks(tasks)
 
 
 // to delete the item
-const deleteEl = document.querySelectorAll('#delete-el')
-
-deleteEl.forEach((item) => {
-    item.addEventListener('click', () => {
-        const itemId = item.dataset.taskId
-        const taskCont = document.querySelector(`#task${itemId}`)
-        taskCont.remove()
-        console.log(itemId)
-        let matchItem
-        tasks.map((task) => {
-            if (task.taskId == itemId){
-                matchItem = task
-            }
+function deleteTask(){
+    const deleteEl = document.querySelectorAll('#delete-el')
+    deleteEl.forEach((item) => {
+        item.addEventListener('click', () => {
+            const itemId = item.dataset.taskId
+            const taskCont = document.querySelector(`#task${itemId}`)
+            taskCont.remove()
+            let matchItem
+            tasks.map((task) => {
+                if (task.taskId == itemId){
+                    matchItem = task
+                }
+            })
+            const index = tasks.indexOf(matchItem)
+            tasks.splice(index, 1)
+            const timeList = dates.filter(dateItem => dateItem.taskId != matchItem.taskId)
+            SaveTimes(timeList)
+            SaveToStorage()
         })
-        const index = tasks.indexOf(matchItem)
-        tasks.splice(index, 1)
-        const timeList = dates.filter(dateItem => dateItem.taskId != matchItem.taskId)
-        console.log(timeList, 'timeList')
-        SaveTimes(timeList)
-
-        // console.log(count)
-        // localStorage.setItem('tasks', JSON.stringify(tasks))
-        SaveToStorage()
     })
-})
+}
+deleteTask()
 
 
 // to edit task details
-const editEl = document.querySelectorAll('#edit-el')
-
-editEl.forEach((item) => {
-    item.addEventListener('click', () => {
-        let matchItem
-        const itemId = item.dataset.taskId
-        addContainer.classList.remove('item-info')
-        addButton.classList.add('add-task')
-        editButton.classList.remove('edit-task')
-        tasks.forEach((task) => {
-            if(task.taskId == itemId){
-                matchItem = task
-            }
+function editTask(){
+    const editEl = document.querySelectorAll('#edit-el')
+    editEl.forEach((item) => {
+        item.addEventListener('click', () => {
+            let matchItem
+            const itemId = item.dataset.taskId
+            addContainer.classList.remove('item-info')
+            addButton.classList.add('add-task')
+            editButton.classList.remove('edit-task')
+            tasks.forEach((task) => {
+                if(task.taskId == itemId){
+                    matchItem = task
+                }
+            })
+            taskName.value = matchItem.tName
+            taskDesc.value = matchItem.tDesc
+            taskTag.value = matchItem.tTag
+    
+            editButton.addEventListener('click', (e) => {
+                e.preventDefault()
+                matchItem.tName = taskName.value
+                matchItem.tDesc = taskDesc.value
+                matchItem.tTag = taskTag.value
+                SaveToStorage()
+                unDisplayAdd()
+            })        
         })
-        taskName.value = matchItem.tName
-        taskDesc.value = matchItem.tDesc
-        taskTag.value = matchItem.tTag
-
-        editButton.addEventListener('click', (e) => {
-            e.preventDefault()
-            matchItem.tName = taskName.value
-            matchItem.tDesc = taskDesc.value
-            matchItem.tTag = taskTag.value
-
-            // localStorage.setItem('tasks', JSON.stringify(tasks))
-            SaveToStorage()
-            unDisplayAdd()
-        })        
     })
-})
+}
+editTask()
 
 
 // to add task
@@ -158,7 +147,6 @@ addButton.addEventListener('click', (e) => {
     // console.log('hi')
     addTasks()
 })
-
 
 // to display the add container
 function displayAdd(){
@@ -178,10 +166,7 @@ function unDisplayAdd(){
 }
 backButton.addEventListener('click', unDisplayAdd)
 
-
 // to search tasks
-const allBt = document.querySelector('.all-btn')
-
 function searchTasks(){
     let tsListHtml = ''
     const searchValue = searchEl.value
@@ -192,7 +177,7 @@ function searchTasks(){
             console.log(task)
             tsListHtml += `
             <div class="task-container" id="task${task.taskId}">
-                <a class="task-head" href="timer-block/index.html">
+                <a class="task-head" href="../timer-block/index.html?personId=${perId}&taskId=${task.taskId}" data-task-id="${task.taskId}">
                     <h3>${task.tName}</h3><span>${task.tDesc}</span><span>${task.tTag}</span>
                 </a>
                 <div class="task-buttons">
@@ -215,6 +200,8 @@ allBt.addEventListener('click', () => {
 searchBt.addEventListener('click', (e) => {
     e.preventDefault()
     searchTasks()
+    editTask()
+    deleteTask()
 })
 
 // to display person details

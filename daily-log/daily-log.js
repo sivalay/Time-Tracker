@@ -1,4 +1,5 @@
 import { tasks,displayLocId } from "../datas/tasks.js"
+import { formatTime } from "../datas/times.js"
 
 const dateContainer = document.querySelector('.dates-container')
 const dateHead = document.querySelector('.today-head')
@@ -116,14 +117,12 @@ searchBt.addEventListener('click', (e) => {
 
 // display of tasks and times for the day
 function displayTasks(now){
-    // let logDate
     let maxWeekHour = 0
     let maxHourVar = 0
     taskHead.innerHTML = ''
     const currentDate = (new Date(now)).toLocaleDateString()
     tasks.map((task) => {    
         let diffSum = 0 
-        // let weekDiff = 0
         if(task.pId == perId){
             task.timeLogs.map((timeItem) => {
                 let logDate = (new Date(`${timeItem.endLog}`)).toLocaleDateString()
@@ -131,7 +130,6 @@ function displayTasks(now){
                     diffSum =diffSum + timeItem.newTimeDiff
                 }
             })
-
             if(diffSum != 0){
                 if (diffSum > maxHourVar){
                     maxHourVar = diffSum
@@ -142,10 +140,7 @@ function displayTasks(now){
                 const timeDiff = (diffSum) / 1000
                 const hours = Math.floor(timeDiff / 3600 % 24)
                 const minss = Math.floor(timeDiff / 60) % 60
-                console.log(minss, 'minss')
-                console.log(hours, 'hours')
                 const inHrd = (minss / 60) * 100
-                // console.log(inHrd, 'inHrd')
                 const timeDiffHtml = `${hours}hr:${formatTime(minss)}mins`
                 const timesEl = {
                     hour : hours,
@@ -174,11 +169,9 @@ function displayTasks(now){
             }
         })
         if (timeDif != 0){
-            // console.log(timeDif, 'timeDif')
             if(timeDif > maxWeekHour){
                 maxWeekHour = timeDif
                 const ms = maxWeekHour / 1000
-                // const mm = (Math.floor(ms / 60) % 60)
                 const mh = Math.floor(ms / 3600 % 24)
                 weekMaxHour = mh + 2
             }
@@ -215,12 +208,7 @@ function displayTasks(now){
     // displayChart()
     displayGraph()
 }
-console.log(now, 'today')
 displayTasks(now)
-
-function formatTime(time){
-    return time < 10 ? (`0${time}`) : time
-}
 
 function displayGraph(){
     graphView()
@@ -292,7 +280,6 @@ function displayGrid(){
     const graphCont = document.getElementById('graph-cont')
     let taskHtml = ''
     let taskContHtml = ''
-    // console.log(taskArray, 'taskArray')
     taskArray.forEach((task, id) => {
         taskHtml += `
             <li class="task" id="task${id}">${task}</li>
@@ -313,7 +300,6 @@ function displayGrid(){
     // weekly graph
     const weeksEl = document.getElementById('log-week')
     let weeks = ''
-    // console.log(weekDates, 'weekDates')
     weekDates.forEach((week) => {
         const weekId = week.id
         weeks += `<li class="task">${weekDays[weekId]}</li>`        
@@ -346,10 +332,8 @@ function displayGrid(){
 
 // to color grid
 function colorGrid(){
-    console.log(gridTimeArray, 'gridTimeArray')
     gridTimeArray.forEach((gridTime,id) => {
         const grids = document.querySelectorAll(`.box${id}`)
-        console.log(grids, 'grids')
         colorGridEl(grids,gridTime)
     })
     weekTimeArray.forEach((weekDay) => {
@@ -359,7 +343,6 @@ function colorGrid(){
 }
 function colorGridEl(grids,gridEl){
     grids.forEach((gridItem) => {
-        console.log(gridItem, 'gridItem')
         const gridId = Number(gridItem.dataset.boxId)
         const hr = Number(gridEl.hour)
         if (gridId <= hr){
@@ -368,8 +351,7 @@ function colorGridEl(grids,gridEl){
         if (gridId == (hr+1)){
             const min = gridEl.min
             gridItem.style.background = `linear-gradient(to top, rgb(183, 187, 183) ${min}%, rgba(0,0,0,0) ${min}%)`
-        }
-         
+        } 
     })
 }
 

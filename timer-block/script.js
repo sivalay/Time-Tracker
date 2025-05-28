@@ -1,4 +1,4 @@
-import { dates, addTime, SaveTimes } from "../datas/times.js"
+import { dates, addTime, SaveTimes, formatTime } from "../datas/times.js"
 import { tasks, SaveToStorage, displayLocId } from "../datas/tasks.js"
 
 const resumeButton = document.querySelector('.rm-btn')
@@ -12,12 +12,17 @@ const totalTime = document.querySelector('.tot-time')
 const doneButton = document.querySelector('#btn-el')
 const homeBt = document.querySelector('.home-link')
 
-let stickTime = 0
-let newTimeDiff = ''
-let resumeDiff
-
 const locId = displayLocId('taskId')
 const perId = displayLocId('personId')
+
+// Get the Task Item
+let taskitem
+tasks.map((task) => {
+    if (task.taskId == locId){
+        taskitem = task
+        console.log(task, 'task')
+    }
+})
 
 // function to get start Time
 function getStartTime(){
@@ -29,32 +34,18 @@ function getStartTime(){
             taskId : locId,
             id : '',
             timeDiff : '',
-            totalTime : '',
+            resumeTime : '',
             status : 'processing'
         }
-        // dates.push(times)
         addTime(times)
         displayTime(dates)
         SaveTimes(dates)
     }
 }
 
-// Get the Task Item
-let taskitem
-tasks.map((task) => {
-    if (task.taskId == locId){
-        taskitem = task
-        console.log(task, 'task')
-    }
-})
-
 // function to renderTimeSum
 function displayTotalTime(){
-    const timeDiff = (taskitem.totalTime) / 1000
-    const hours = Math.floor(timeDiff / 3600 % 24)
-    const mins = Math.floor(timeDiff / 60) % 60
-    const seconds = (Math.floor(timeDiff) % 60)
-    const timeDiffHtml = `${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`
+    const timeDiffHtml = getTimeDiffString(taskitem.totalTime)
     totalTime.innerHTML = timeDiffHtml
 }
 
@@ -79,19 +70,14 @@ function displayTime(dates){
             matchItem = date
             let endTime
             matchItem.id = id
-            const startTime = getTimeString(matchItem.start)
 
+            const startTime = getTimeString(matchItem.start)
             if (matchItem.end != ''){
                 endTime = getTimeString(matchItem.end)
             }else {
                 endTime = '00 : 00 : 00'
             }
-
-            const timeDiff = (matchItem.timeDiff) / 1000
-            const hours = Math.floor(timeDiff / 3600 % 24)
-            const mins = Math.floor(timeDiff / 60) % 60
-            const seconds = (Math.floor(timeDiff) % 60) 
-            const timeDiffHtml = `${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`
+            const timeDiffHtml = getTimeDiffString(matchItem.timeDiff)
 
             timeHtmlEl += `
                 <li class="li" id="li-container" data-time-id="${id}">
@@ -112,7 +98,7 @@ function displayTime(dates){
     console.log(timeHeadContainer, 'timeHeadContainer')
     timeHeadContainer.innerHTML = `
         <li class="li start-text text${locId}" id="text${locId}">
-            <div class="li-cont" id="done-text">Start a New Move</div>
+            <div class="li-cont" id="done-text"></div>
         </li>
     `
     const doneContainer = document.querySelector(`.text${locId}`)
@@ -120,17 +106,12 @@ function displayTime(dates){
     if (taskitem.taskStatus == 'Done'){
         doneContainer.innerHTML = "Task Done"
     }
-    // console.log((taskitem.taskStatus), 'status')
-    // dates.map((date, id) => {
-    //     if (date.status == 'processing' || taskitem.taskStatus == 'resume'){
-    //         console.log("its processing")
-    //         doneContainer.innerHTML = "Task Processing"
-    //     }
-    // })
-    // if (taskitem.taskStatus == 'processing' || taskitem.taskStatus == 'resume'){
-    //     console.log('it is')
-    //     doneContainer.innerHTML = "Task Processing"
-    // }
+    if (taskitem.taskStatus == ''){
+        doneContainer.innerHTML = "Start a New Move"
+    }
+    if (taskitem.taskStatus == 'processing'){
+        doneContainer.innerHTML = "Task Processing"
+    }
 }
 displayTime(dates)
 
@@ -154,15 +135,18 @@ dates.map((dateItem) => {
     if(dateItem.status === 'processing'){
         setInterval(getRunTime, 1000)
     }
-    if(dateItem.status === 'resume'){
-        setInterval(resumeTimer, 1000)
-    }
+    // if(dateItem.status === 'resume'){
+    //     const pausedTime = dateItem.timeDiff
+    //     const resumeId = dateItem.id
+    //     let greenEl = document.querySelector(`#task${resumeId}`)
+    //     setInterval(resumeTimer, 1000, greenEl, pausedTime)
+    // }
 })
 
 // function to transform time
-function formatTime(time){
-    return time < 10 ? (`0${time}`) : time
-}
+// function formatTime(time){
+//     return time < 10 ? (`0${time}`) : time
+// }
 
 function getTimeString(dateItem){
     const endTime = new Date(dateItem)
@@ -173,8 +157,19 @@ function getTimeString(dateItem){
     return endTimeHtml
 }
 
+function getTimeDiffString(dateEl){
+    const timeDiff = (dateEl) / 1000
+    const hours = Math.floor(timeDiff / 3600 % 24)
+    const mins = Math.floor(timeDiff / 60) % 60
+    const seconds = (Math.floor(timeDiff) % 60) 
+    const timeDiffHtml = `${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`
+    return timeDiffHtml
+}
+
 startButton.addEventListener('click', () => {
     if (taskitem.taskStatus == ''){
+        taskitem.taskStatus = 'processing'
+        SaveToStorage()
         getStartTime()
         setInterval(getRunTime, 1000)
     }
@@ -183,27 +178,15 @@ startButton.addEventListener('click', () => {
 // function to get End Time
 function getEndTime(){
     const date = new Date()
-    // console.log('hi')
     const r = dates.map((item, id) => {
         if (item.status === 'processing' || item.status == 'resume'){
             item.end = `${date}`
             item.status = 'done'
-            console.log(item.timeDiff)
-
-            if(newTimeDiff != ''){
-                resumeDiff = newTimeDiff
-            }else{
-                resumeDiff = item.timeDiff
-            }
             const timeLog = {
                 newTimeDiff : item.timeDiff,
                 endLog : date
             }
-            // console.log(timeLog, 'timeLog')
-            // console.log("Here is the time Diff n Date")
             taskitem.timeLogs.push(timeLog)
-            // console.log(taskitem.timeLogs)
-            // console.log(dates, 'after-end')
             SaveToStorage()
             SaveTimes(dates)
         }
@@ -216,17 +199,15 @@ stopButton.addEventListener('click', () => {
     displayTotTime()
     displayTime(dates)
     clearInterval()
+    if (taskitem.taskStatus == 'processing'){
+        taskitem.taskStatus = ''
+        SaveToStorage()
+    }
     location.reload()
 })
 
-
 // for resume button
 const timeCont = document.querySelectorAll('#li-container')
-
-let greenEl
-let resumeId
-let resumeStartTime
-let pausedTime
 
 timeCont.forEach((item) => {
     if (taskitem.taskStatus == ''){
@@ -234,12 +215,10 @@ timeCont.forEach((item) => {
             resumeButton.classList.remove('item-info')
             backButton.classList.remove('item-info')
             startButton.classList.add('item-info')
-            resumeId = item.dataset.timeId
+            let resumeId = item.dataset.timeId
             dates.map((date) => {
                 if(date.id == resumeId){
                     date.status = 'resume'
-                    pausedTime = date.timeDiff
-                    console.log(pausedTime)
                 }else{
                     date.status = 'done'
                 }
@@ -249,30 +228,36 @@ timeCont.forEach((item) => {
     }
 })
 
-function resumeTimer(){
+function resumeTimer(greenEl, pausedTime){
     dates.map((date) => {
         if (date.status == 'resume'){
             const timeNow = new Date()
-            newTimeDiff = timeNow - resumeStartTime
-            resumeDiff = newTimeDiff
-            console.log(resumeDiff, 'resume time diffs')
+            const resumeStart = date.resumeTime
+            let newTimeDiff = timeNow - resumeStart
             date.timeDiff = pausedTime + newTimeDiff
             SaveTimes(dates)
             displayTime(dates)
         }else{
             greenEl.classList.add('item-info')
-
         }
     })
     
 }
 
 resumeButton.addEventListener('click', () => {
-    resumeStartTime = new Date()
+    const resumeStartTime = new Date()
     backButton.classList.add('item-info')
-    greenEl = document.querySelector(`#task${resumeId}`)
-    console.log(greenEl)
-    setInterval(resumeTimer, 1000)
+    let resumeId
+    let pausedTime
+    dates.map((date) => {
+        if (date.status == 'resume'){
+            resumeId = date.id
+            date.resumeTime = resumeStartTime
+            pausedTime = date.timeDiff
+        }
+    })
+    let greenEl = document.querySelector(`#task${resumeId}`)
+    setInterval(resumeTimer, 1000, greenEl, pausedTime)
 })
 
 // for back button in resume
@@ -294,14 +279,13 @@ backButton.addEventListener('click', backResume)
 
 // function to get totalTime
 function displayTotTime(){
-    
+    let stickTime = 0
     dates.map((date) => {
         if (date.timeDiff && date.taskId == locId){
             stickTime += date.timeDiff
         }
     })
     taskitem.totalTime = stickTime
-    // console.log(taskitem.totalTime)
     SaveToStorage()
 }
 
@@ -316,31 +300,4 @@ homeBt.addEventListener('click', (e) => {
     e.preventDefault()
     window.location = `../task-block/index.html?personId=${perId}`
 })
-
-function rufFun(){
-    dates.map((item) => {
-        if (item.taskId == 4){
-            console.log(item)
-            const itemNow = (item.timeLogs)
-            console.log(itemNow)
-            let k
-            let k1
-            itemNow.map((logItem) => {
-                k = new Date(logItem.endLog)
-                k1 = logItem.newTimeDiff
-                console.log(k)
-                console.log(k1)
-            })
-            // const nowString = new Date(itemNow)
-            // console.log(nowString, 'nowString')
-            const timeDiff = (k1) / 1000
-            const hours = Math.floor(timeDiff / 3600 % 24)
-            const mins = Math.floor(timeDiff / 60) % 60
-            const seconds = (Math.floor(timeDiff) % 60 ) + 1
-            console.log(`${formatTime(hours)} : ${formatTime(mins)} : ${formatTime(seconds)}`)
-            // const itemDate = nowString.getDate()
-            // console.log(itemDate)
-        }
-    })
-}
 

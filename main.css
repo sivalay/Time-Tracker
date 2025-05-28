@@ -362,6 +362,10 @@ h3{
 #edit-el i{
     color: green;
 }
+.task-stat{
+    font-size: 14px;
+    color: rgb(236, 250, 236);
+}
 
 
 /* -----------timer-page------------- */
