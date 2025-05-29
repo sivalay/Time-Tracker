@@ -82,7 +82,6 @@ function displayTasks(tasks){
 }
 displayTasks(tasks)
 
-
 // to delete the item
 function deleteTask(){
     const deleteEl = document.querySelectorAll('#delete-el')
@@ -106,7 +105,6 @@ function deleteTask(){
     })
 }
 deleteTask()
-
 
 // to edit task details
 function editTask(){
@@ -140,7 +138,6 @@ function editTask(){
 }
 editTask()
 
-
 // to add task
 addButton.addEventListener('click', (e) => {
     e.preventDefault()
@@ -148,13 +145,11 @@ addButton.addEventListener('click', (e) => {
     addTasks()
 })
 
-// to display the add container
+// to display and undisplay the add container
 function displayAdd(){
     addContainer.classList.remove('item-info')
 }
 addEl.addEventListener('click', displayAdd)
-
-// to undisplay the add container
 function unDisplayAdd(){
     taskName.value = ''
     taskDesc.value = ''
@@ -171,10 +166,10 @@ function searchTasks(){
     let tsListHtml = ''
     const searchValue = searchEl.value
     allBt.classList.remove('item-info')
-    console.log(searchValue)
+    // console.log(searchValue)
     tasks.forEach((task) => {
         if (task.tTag == searchValue && task.pId == perId){
-            console.log(task)
+            // console.log(task)
             tsListHtml += `
             <div class="task-container" id="task${task.taskId}">
                 <a class="task-head" href="../timer-block/index.html?personId=${perId}&taskId=${task.taskId}" data-task-id="${task.taskId}">
@@ -188,7 +183,7 @@ function searchTasks(){
             `
         }
     })
-    console.log(tsListHtml)
+    // console.log(tsListHtml)
     searchEl.value = ''
     taskList.innerHTML = tsListHtml
 }
@@ -210,9 +205,9 @@ function displayPerson(){
     people.map((peo) => {
         if (peo.pId == perId){
             matchItem = peo
-            console.log(matchItem, 'matchItem')
+            // console.log(matchItem, 'matchItem')
         }
-        console.log(peo, 'peo-element')
+        // console.log(peo, 'peo-element')
     })
     infoCont.innerHTML = `
         <div>
@@ -232,7 +227,7 @@ personInfo.addEventListener('click', (e) => {
     personContainer.classList.remove('item-info')
     displayPerson()
 })
-console.log(personBackBt,'back-btn')
+// console.log(personBackBt,'back-btn')
 
 personBackBt.addEventListener('click', () => {
     personContainer.classList.add('item-info')

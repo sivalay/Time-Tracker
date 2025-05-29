@@ -10,9 +10,11 @@ const signinBt = document.querySelector('.signin-bt')
 const nameCont = document.querySelector('#signin-name')
 const emailCont = document.querySelector('#signin-email')
 const passCont = document.querySelector('#signin-pass')
+const eyeEl = document.querySelector('#eye-block1')
 
 const logNameCont = document.querySelector('#login-name')
 const logPassCont = document.querySelector('#login-pass')
+const logEyeEl = document.getElementById('eye-block')
 const errorMsg = document.querySelector('.error')
 
 loginHead.addEventListener('click', () => {
@@ -23,6 +25,7 @@ loginHead.addEventListener('click', () => {
     loginHead.classList.remove('disabled')
     loginHead.classList.add('underlines')
     form1.classList.remove('item-info')
+    errorMsg.innerHTML = ''
 
 })
 
@@ -37,8 +40,6 @@ signinHead.addEventListener('click', () => {
 
 })
 
-// const people = []
-
 // function to get person Details
 function addToPeople(){
     const name = nameCont.value
@@ -46,23 +47,40 @@ function addToPeople(){
     const password = passCont.value
     let pId
 
-    if (people.length == 0){
-        pId = 0
+    if (!name){
+        errorMsgs("Name must be filled out")
+    }else if(!email){
+        errorMsgs("Please fill email")
+    }else if(!password){
+        errorMsgs("Password must be filled out")
+    }else{
+        if (people.length == 0){
+            pId = 0
+        }
+        if (people.length != 0){
+            pId = people.at(-1).pId + 1
+        }
+        const person = {
+            name,
+            email,
+            password,
+            pId
+        }
+        addPerson(person)
+        savePerson()
+        console.log(people, 'people')
+        successMsg("Successfully Signed in")
+        nameCont.value = ''
+        emailCont.value = ''
+        passCont.value = ''
     }
-    if (people.length != 0){
-        pId = people.at(-1).pId + 1
-    }
-
-    const person = {
-        name,
-        email,
-        password,
-        pId
-    }
-    // people.push(person)
-    addPerson(person)
-    savePerson()
-    console.log(people, 'people')
+}
+function errorMsgs(text){
+    errorMsg.innerHTML = `${text}`
+}
+function successMsg(text){
+    errorMsg.innerHTML = `${text}`
+    errorMsg.style.color = 'green'
 }
 
 signinBt.addEventListener('click', () => {
@@ -75,9 +93,7 @@ logBt.addEventListener('click', (e) => {
     console.log(matchItem)
     const name = logNameCont.value
     const password = logPassCont.value
-    console.log(name, password)
     people.map((peo) => {
-        console.log(peo.password)
         if ((peo.name == name) && (peo.password == password)){
             matchItem = peo.pId
             console.log(matchItem, 'matchItem')
@@ -87,12 +103,26 @@ logBt.addEventListener('click', (e) => {
         if (matchItem != undefined){
             window.location = `./task-block/index.html?personId=${matchItem}`
         }else{
-            errorMsg.innerHTML = 'You are not Signed In..'
+            errorMsgs('You are not Signed In..')
         }
     }else{
-        errorMsg.innerHTML = 'Please Enter the input.'
+        errorMsgs('Please Enter the input.')
     }
 })
 
 // logBt.innerHTML = 
+eyeEl.addEventListener('click', () => {
+    if (passCont.type == 'password'){
+        passCont.type = 'text'
+    }else {
+        passCont.type = 'password'
+    }
+})
+logEyeEl.addEventListener('click', () => {
+    if (logPassCont.type == 'password'){
+        logPassCont.type = 'text'
+    }else {
+        logPassCont.type = 'password'
+    }
+})
 

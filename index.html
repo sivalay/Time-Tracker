@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login-Page</title>
     <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"/>
 </head>
 <body>
     <div class="main-wrap">
@@ -20,11 +21,12 @@
                 <form action="" id="form1" class="log-form">
                     <div class="name-L input-cont">
                         <label for="login-name">Name : </label>
-                        <input type="text" id="login-name" placeholder="Enter Your User-name" required>
+                        <input type="text" id="login-name" placeholder="Enter Your User-name">
                     </div>
                     <div class="password-L input-cont">
                         <label for="login-pass">Password : </label>
-                        <input type="text" id="login-pass" placeholder="Enter Your Password" required>
+                            <input type="password" id="login-pass" placeholder="Enter Your Password"> 
+                            <i class="fas fa-regular fa-eye-slash eye-block" id="eye-block"></i>
                     </div>
                     <div class="bt-cont" id="log-bt">
                         <a href="" class="login-link"><div class="button login-bt">Login</div></a>
@@ -42,7 +44,8 @@
                     </div>
                     <div class="password-L input-cont">
                         <label for="signin-pass">Password : </label>
-                        <input type="text" id="signin-pass" placeholder="Create Your Password">
+                        <input type="password" id="signin-pass" placeholder="Create Your Password">
+                        <i class="fas fa-regular fa-eye-slash eye-block" id="eye-block1"></i>
                     </div>
                     <div class="bt-cont"><div class="button signin-bt">Sign-In</div></div>
                 </form>

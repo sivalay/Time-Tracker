@@ -68,11 +68,22 @@ body{
 }
 
 .input-cont{
+    position: relative;
     display: flex;
     gap: 10px;
 }
 .input-cont label{
     width: 90px;
+}
+
+.eye-block{
+    top: 5px;
+    right: 0px;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    position: absolute;
+    margin: 0;
 }
 
 /* main index */
@@ -781,9 +792,6 @@ canvas{
     canvas{
         min-height: auto;
     }
-    /* .task-info{
-        left: 85px;
-    } */
     .log-task-container{
         gap: 20px;
     }

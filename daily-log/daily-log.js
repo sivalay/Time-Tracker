@@ -389,6 +389,7 @@ function displayCurrentTask(eventId){
     taskHead.innerHTML = task
     taskTime.innerHTML = time
 }
+
 function displayCurrentWeek(eventId){
     const taskHead = document.getElementById('week-head')
     const taskTime = document.getElementById('week-time-st')

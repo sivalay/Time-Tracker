@@ -135,18 +135,7 @@ dates.map((dateItem) => {
     if(dateItem.status === 'processing'){
         setInterval(getRunTime, 1000)
     }
-    // if(dateItem.status === 'resume'){
-    //     const pausedTime = dateItem.timeDiff
-    //     const resumeId = dateItem.id
-    //     let greenEl = document.querySelector(`#task${resumeId}`)
-    //     setInterval(resumeTimer, 1000, greenEl, pausedTime)
-    // }
 })
-
-// function to transform time
-// function formatTime(time){
-//     return time < 10 ? (`0${time}`) : time
-// }
 
 function getTimeString(dateItem){
     const endTime = new Date(dateItem)
@@ -268,6 +257,7 @@ function backResume(){
             backButton.classList.add('item-info')
             startButton.classList.remove('item-info')
             date.status = 'done'
+            // console.log(date.status, 'date status')
             SaveTimes(dates)
             displayTime(dates)
             location.reload()
