@@ -65,7 +65,7 @@ function displayTasks(tasks){
             return `
                 <div class="task-container" id="task${task.taskId}">
                     <a class="task-head" href="../timer-block/index.html?personId=${perId}&taskId=${task.taskId}" data-task-id="${task.taskId}">
-                        <h3>${task.tName}</h3><span>${task.tDesc}</span><span>${task.tTag}</span><span class="task-stat" id="task-stat">${task.taskStatus == 'Done' ? 'Completed' : 'In Progress'}</span>
+                        <h3>${task.tName}</h3><span>${task.tDesc}</span><span>${task.tTag}</span><span class="task-stat" id="task-stat${task.taskId}">${task.taskStatus == 'Done' ? 'Completed' : 'In Progress'}</span>
                     </a>
                     <div class="task-buttons">
                         <button class="button" id="edit-el" data-task-id="${task.taskId}"><i class="fas fa-pen"></i>Edit</button>
@@ -207,7 +207,7 @@ function displayPerson(){
             matchItem = peo
             // console.log(matchItem, 'matchItem')
         }
-        // console.log(peo, 'peo-element')
+        // console.log(peo, '')
     })
     infoCont.innerHTML = `
         <div>
