@@ -59,6 +59,7 @@ body{
     margin-top: 20px;
     width: fit-content;
     color: #000;
+    cursor: pointer;
 }
 
 .input-cont{
@@ -107,6 +108,7 @@ nav{
     background-color: rgb(232, 245, 232);
     border: none;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 i{
@@ -169,6 +171,7 @@ h3{
 .person-btn-cont .button{
     background-color: rgb(183, 187, 183);
     color: rgb(236, 250, 236);
+    cursor: pointer;
 }
 
 .person-back{
@@ -455,6 +458,7 @@ h1{
     height: 20px;
     width: 20px;
     font-size: 1rem;
+    cursor: pointer;
 }
 
 .main-task-wrap{
@@ -475,6 +479,7 @@ h1{
     width: fit-content;
     display: flex;
     align-self: flex-end;
+    cursor: pointer;
 }
 
 .border-view{
